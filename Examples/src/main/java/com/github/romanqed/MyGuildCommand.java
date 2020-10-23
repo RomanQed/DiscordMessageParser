@@ -11,7 +11,7 @@ import java.util.List;
 @BotCommand
 public class MyGuildCommand extends GuildCommand {
     public MyGuildCommand() {
-        super("com.github.romanqed.MyGuildCommand", List.of("TestRole"), Permission.MESSAGE_MANAGE);
+        super("MyGuildCommand", List.of("TestRole"), Permission.MESSAGE_MANAGE);
     }
 
     @Override

@@ -7,7 +7,14 @@ version '0.0.1'
 
 repositories {
     mavenCentral()
+    jcenter()
+    maven {
+        url 'https://dl.bintray.com/romanqed/maven/'
+    }
 }
 
 dependencies {
+    compile group: 'net.dv8tion', name: 'JDA', version: '4.2.0_209'
+    compile 'com.github.romanqed:DiscordMessageParser:0.0.1'
+    annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 }

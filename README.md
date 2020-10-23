@@ -4,7 +4,7 @@ A simple parser of discord activities, which provides functionality for processi
 ## Gradle dependency
 ```Groovy
 compile group: 'net.dv8tion', name: 'JDA', version: '4.2.0_209'
-compile 'com.github.romanqed:DiscordMessageParser:0.0.1'
+compile group: 'com.github.romanqed', name: 'DiscordMessageParser', version: '0.0.1'
 annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 ```
 

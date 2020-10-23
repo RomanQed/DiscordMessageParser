@@ -17,7 +17,7 @@ publish {
     artifactId = 'DiscordMessageParser'
     publishVersion = '0.0.1'
     desc = 'A simple parser of discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.'
-    website = 'https://github.com/RomanQed/'
+    website = 'https://github.com/RomanQed/DiscordMessageParser'
 }
 
 group 'com.github.romanqed'

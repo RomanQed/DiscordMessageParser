@@ -1,5 +1,5 @@
 ## DiscordMessageParser
-A simple parser of discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.
+A simple library for parsing discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.
 
 ## Gradle dependency
 ```Groovy

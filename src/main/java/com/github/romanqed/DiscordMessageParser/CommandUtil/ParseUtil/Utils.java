@@ -44,8 +44,8 @@ public class Utils {
     public static ParseResult parseCommand(String rawString, String commandPrefix) {
         rawString = Objects.requireNonNullElse(rawString, "");
         commandPrefix = Objects.requireNonNullElse(commandPrefix, "");
-        rawString += " ";
         if (!commandPrefix.isEmpty() && rawString.startsWith(commandPrefix)) {
+            rawString += " ";
             int commandBodyEnd = rawString.indexOf(' ', commandPrefix.length());
             String commandBody = rawString.substring(commandPrefix.length(), commandBodyEnd);
             if (!commandBody.isEmpty()) {

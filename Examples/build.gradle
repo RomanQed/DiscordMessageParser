@@ -8,9 +8,6 @@ version '0.0.1'
 repositories {
     mavenCentral()
     jcenter()
-    maven {
-        url 'https://dl.bintray.com/romanqed/maven/'
-    }
 }
 
 dependencies {

@@ -21,6 +21,6 @@ public interface IParseEventHandler {
     default void onGuildPermissionError(GuildMessageReceivedEvent event) {
     }
 
-    default void onGuildRoleError(GuildMessageReceivedEvent event){
+    default void onGuildRoleError(GuildMessageReceivedEvent event) {
     }
 }

@@ -178,7 +178,7 @@ public class JDAUtils {
 
     public static Role createMuteRole(@NotNull Guild guild, @NotNull String muteRoleName) {
         muteRoleName = Objects.requireNonNullElse(muteRoleName, "");
-        if (muteRoleName.isEmpty()){
+        if (muteRoleName.isEmpty()) {
             muteRoleName = "MuteRole";
         }
         try {

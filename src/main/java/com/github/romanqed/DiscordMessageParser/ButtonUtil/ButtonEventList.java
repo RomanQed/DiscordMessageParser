@@ -1,7 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.ButtonUtil;
 
 import net.dv8tion.jda.api.entities.User;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,22 +12,31 @@ public class ButtonEventList {
         events = new ConcurrentHashMap<>();
     }
 
-    public void execute(@NotNull String id, @NotNull User user) {
+    public void execute(String id, User user) {
+        if (id == null || user == null) {
+            return;
+        }
         ButtonEvent event = events.get(id);
-        if (event != null) {
-            event.getAction().accept(user);
-            if (event.getLifeTime() == ButtonEventLifeTime.DISPOSABLE) {
-                events.remove(id);
-            }
+        if (event == null) {
+            return;
+        }
+        event.getAction().accept(user);
+        if (event.getLifeTime() == ButtonEventLifeTime.DISPOSABLE) {
+            events.remove(id);
         }
     }
 
-    public void add(@NotNull ButtonEvent event) {
-        String id = event.getId();
-        events.put(id, event);
+    public void add(ButtonEvent event) {
+        if (event == null) {
+            return;
+        }
+        events.put(event.getId(), event);
     }
 
-    public void add(@NotNull List<ButtonEvent> eventList) {
+    public void add(List<ButtonEvent> eventList) {
+        if (eventList == null) {
+            return;
+        }
         for (ButtonEvent event : eventList) {
             add(event);
         }

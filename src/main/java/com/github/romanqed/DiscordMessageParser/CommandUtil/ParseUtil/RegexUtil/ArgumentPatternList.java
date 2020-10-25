@@ -1,7 +1,5 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.RegexUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +19,10 @@ public class ArgumentPatternList {
         }
     }
 
-    public boolean validateArgumentList(@NotNull List<String> arguments) {
+    public boolean validateArgumentList(List<String> arguments) {
+        if (arguments == null) {
+            return false;
+        }
         if (arguments.size() < getStrongArgumentsCount() || arguments.size() > getSize()) {
             return false;
         }

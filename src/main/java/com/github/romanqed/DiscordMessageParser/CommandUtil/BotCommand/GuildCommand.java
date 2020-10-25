@@ -30,7 +30,7 @@ public class GuildCommand extends Command {
         }
     }
 
-    public GuildCommand(@NotNull String name, @Nullable Permission... permissions){
+    public GuildCommand(@NotNull String name, @Nullable Permission... permissions) {
         this(name, null, permissions);
     }
 
@@ -38,7 +38,7 @@ public class GuildCommand extends Command {
         return permissions;
     }
 
-    public Set<String> getRoles(){
+    public Set<String> getRoles() {
         return roles;
     }
 

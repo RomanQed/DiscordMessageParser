@@ -1,7 +1,5 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 public class Command {
@@ -12,7 +10,7 @@ public class Command {
         this("", CommandType.EmptyCommand);
     }
 
-    public Command(@NotNull String name, @NotNull CommandType type) {
+    public Command(String name, CommandType type) {
         this.name = Objects.requireNonNullElse(name, "");
         this.type = Objects.requireNonNullElse(type, CommandType.EmptyCommand);
     }
@@ -30,6 +28,6 @@ public class Command {
     }
 
     public boolean equalsToCommand(Command command) {
-        return name.contentEquals(command.name) && type.equals(command.type);
+        return command != null && name.contentEquals(command.name) && type.equals(command.type);
     }
 }

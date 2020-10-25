@@ -27,6 +27,9 @@ public class VariableList {
     }
 
     public void putVariable(@NotNull Variable variable) {
+        if (variable == null) {
+            return;
+        }
         variables.put(variable.getName(), variable);
     }
 
@@ -35,6 +38,9 @@ public class VariableList {
     }
 
     public void removeVariable(@NotNull Variable variable) {
+        if (variable == null) {
+            return;
+        }
         removeVariable(variable.getName());
     }
 
@@ -43,6 +49,9 @@ public class VariableList {
     }
 
     public boolean containsVariable(@NotNull Variable variable) {
+        if (variable == null) {
+            return false;
+        }
         return containsVariable(variable.getName());
     }
 

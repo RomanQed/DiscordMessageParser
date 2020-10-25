@@ -1,11 +1,10 @@
 package com.github.romanqed.DiscordMessageParser.ButtonUtil;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.RegexUtil.ArgumentPattern;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class ButtonEvent {
@@ -16,9 +15,10 @@ public class ButtonEvent {
     private String channelId;
 
     public ButtonEvent(@NotNull String unicodeId, @NotNull ButtonEventLifeTime lifeTime, @NotNull Consumer<User> action) {
-        this.unicodeId = unicodeId;
-        this.lifeTime = lifeTime;
-        this.action = action;
+        this.unicodeId = Objects.requireNonNullElse(unicodeId, "\uD83D\uDE00");
+        this.lifeTime = Objects.requireNonNullElse(lifeTime, ButtonEventLifeTime.DISPOSABLE);
+        this.action = Objects.requireNonNullElse(action, user -> {
+        });
     }
 
     public static ButtonEvent createInfEvent(@NotNull String unicodeId, @NotNull Consumer<User> action) {
@@ -29,7 +29,7 @@ public class ButtonEvent {
         return new ButtonEvent(unicodeId, ButtonEventLifeTime.DISPOSABLE, action);
     }
 
-    public String getChannelId() {
+    public @NotNull String getChannelId() {
         return channelId;
     }
 
@@ -41,7 +41,7 @@ public class ButtonEvent {
         }
     }
 
-    public String getMessageId() {
+    public @NotNull String getMessageId() {
         return messageId;
     }
 
@@ -53,19 +53,19 @@ public class ButtonEvent {
         }
     }
 
-    public ButtonEventLifeTime getLifeTime() {
+    public @NotNull ButtonEventLifeTime getLifeTime() {
         return lifeTime;
     }
 
-    public String getId() {
+    public @NotNull String getId() {
         return channelId + messageId + unicodeId;
     }
 
-    public String getUnicodeId() {
+    public @NotNull String getUnicodeId() {
         return unicodeId;
     }
 
-    public Consumer<User> getAction() {
+    public @NotNull Consumer<User> getAction() {
         return action;
     }
 }

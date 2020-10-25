@@ -1,5 +1,8 @@
 package com.github.romanqed.DiscordMessageParser.ThreadUtil;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,20 +21,19 @@ public class QueueExecutor implements Runnable {
         needInterrupt.set(false);
         Runnable action;
         while (!needInterrupt.get()) {
-            synchronized(queue) {
+            synchronized (queue) {
                 if (queue.isEmpty()) {
                     try {
                         startFreezingTime = System.currentTimeMillis();
                         queue.wait();
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
                 }
                 action = queue.remove();
             }
             action.run();
-            synchronized (this){
+            synchronized (this) {
                 if (queue.isEmpty()) {
                     notify();
                 }
@@ -51,8 +53,10 @@ public class QueueExecutor implements Runnable {
         notify();
     }
 
-    public void addToQueue(Runnable runnable) {
-        synchronized (queue){
+    public void addToQueue(@NotNull Runnable runnable) {
+        runnable = Objects.requireNonNullElse(runnable, () -> {
+        });
+        synchronized (queue) {
             queue.add(runnable);
             startFreezingTime = -1;
             queue.notify();

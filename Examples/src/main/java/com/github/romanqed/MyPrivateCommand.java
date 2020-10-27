@@ -6,7 +6,7 @@ import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.ServiceAn
 
 @BotCommand
 public class MyPrivateCommand extends PrivateCommand {
-    public MyPrivateCommand(){
+    public MyPrivateCommand() {
         super("MyPrivateCommand");
     }
 

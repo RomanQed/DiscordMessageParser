@@ -30,6 +30,9 @@ public class QueueExecutor implements Runnable {
                         Thread.currentThread().interrupt();
                     }
                 }
+                if (queue.isEmpty()) {
+                    continue;
+                }
                 action = queue.remove();
             }
             action.run();
@@ -50,7 +53,9 @@ public class QueueExecutor implements Runnable {
             }
         }
         needInterrupt.set(true);
-        notify();
+        synchronized (queue){
+            queue.notify();
+        }
     }
 
     public void addToQueue(@NotNull Runnable runnable) {

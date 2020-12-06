@@ -254,6 +254,10 @@ public class GuildCommandEvent extends BotCommandEvent {
         kickMember(member, null, success, failure);
     }
 
+    public void kickMember(@NotNull Member member, @NotNull String reason) {
+        kickMember(member, reason, null, null);
+    }
+
     public void kickMember(@NotNull Member member) {
         kickMember(member, null, null, null);
     }

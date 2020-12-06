@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.0_209'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.0_222'
     compile group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 }
 

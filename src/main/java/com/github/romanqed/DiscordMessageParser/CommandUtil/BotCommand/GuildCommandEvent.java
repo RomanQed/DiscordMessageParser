@@ -240,9 +240,9 @@ public class GuildCommandEvent extends BotCommandEvent {
         unBanUser(user, null, null);
     }
 
-    public void kickMember(@NotNull Member member, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
+    public void kickMember(@NotNull Member member, @NotNull String reason, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         try {
-            guild.kick(member).queue(success, failure);
+            guild.kick(member, reason).queue(success, failure);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -250,8 +250,12 @@ public class GuildCommandEvent extends BotCommandEvent {
         }
     }
 
+    public void kickMember(@NotNull Member member, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
+        kickMember(member, null, success, failure);
+    }
+
     public void kickMember(@NotNull Member member) {
-        kickMember(member, null, null);
+        kickMember(member, null, null, null);
     }
 
     public void voiceMuteMember(@NotNull Member member, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {

@@ -194,10 +194,7 @@ public class JDAUtils {
 
     public static boolean clearTextChannel(@NotNull TextChannel channel) {
         try {
-            Boolean result;
-            MessagePaginationAction history = channel.getIterableHistory();
-            history.queue();
-            List<Message> messages = history.getCached();
+            List<Message> messages = channel.getIterableHistory().complete();
             channel.deleteMessages(messages).queue();
             return true;
         } catch (Exception e) {

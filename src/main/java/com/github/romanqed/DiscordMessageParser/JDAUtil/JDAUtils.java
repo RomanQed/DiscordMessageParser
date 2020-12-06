@@ -3,6 +3,7 @@ package com.github.romanqed.DiscordMessageParser.JDAUtil;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.RegexUtil.ArgumentPattern;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.requests.restaction.pagination.MessagePaginationAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -191,20 +192,14 @@ public class JDAUtils {
         }
     }
 
-    public static boolean clearMessages(@NotNull List<Message> messages) {
-        try {
-            for (Message message : messages) {
-                message.delete().queue();
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
     public static boolean clearTextChannel(@NotNull TextChannel channel) {
         try {
-            return clearMessages(channel.getIterableHistory().complete());
+            Boolean result;
+            MessagePaginationAction history = channel.getIterableHistory();
+            history.queue();
+            List<Message> messages = history.getCached();
+            channel.deleteMessages(messages).queue();
+            return true;
         } catch (Exception e) {
             return false;
         }

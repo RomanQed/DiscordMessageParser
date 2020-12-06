@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.requests.restaction.pagination.MessagePaginationActio
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -193,8 +195,12 @@ public class JDAUtils {
     }
 
     public static boolean clearTextChannel(@NotNull TextChannel channel) {
+        OffsetDateTime twoWeeksAgo = OffsetDateTime.now().minus(2, ChronoUnit.WEEKS);
         try {
             List<Message> messages = channel.getIterableHistory().complete();
+            messages.removeIf(item->{
+               return item.getTimeCreated().isBefore(twoWeeksAgo);
+            });
             channel.deleteMessages(messages).queue();
             return true;
         } catch (Exception e) {

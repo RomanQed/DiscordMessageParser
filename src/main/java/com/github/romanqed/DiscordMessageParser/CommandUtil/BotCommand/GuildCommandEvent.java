@@ -179,7 +179,7 @@ public class GuildCommandEvent extends BotCommandEvent {
             return false;
         }
         if (channel != null) {
-            return JDAUtils.clearMessages(channel.getIterableHistory().complete());
+            return JDAUtils.clearTextChannel(channel);
         }
         return false;
     }

@@ -15,14 +15,14 @@ publish {
     userOrg = 'romanqed'
     groupId = 'com.github.romanqed'
     artifactId = 'DiscordMessageParser'
-    publishVersion = '0.0.6'
+    publishVersion = '0.0.7'
     desc = 'A simple library for parsing discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.'
     website = 'https://github.com/RomanQed/DiscordMessageParser'
     licences = ['MIT']
 }
 
 group 'com.github.romanqed'
-version '0.0.6'
+version '0.0.7'
 
 repositories {
     mavenCentral()

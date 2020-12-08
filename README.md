@@ -1,10 +1,11 @@
-## DiscordMessageParser
+## DiscordMessageParser [ ![Download](https://api.bintray.com/packages/romanqed/maven/DiscordMessageParser/images/download.svg?version=0.0.7) ](https://bintray.com/romanqed/maven/DiscordMessageParser/0.0.7/link)
 A simple library for parsing discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.
+
 
 ## Gradle dependency
 ```Groovy
-compile group: 'net.dv8tion', name: 'JDA', version: '4.2.0_209'
-compile group: 'com.github.romanqed', name: 'DiscordMessageParser', version: '0.0.2'
+compile group: 'net.dv8tion', name: 'JDA', version: '4.2.0_222'
+compile group: 'com.github.romanqed', name: 'DiscordMessageParser', version: '0.0.7'
 annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 ```
 

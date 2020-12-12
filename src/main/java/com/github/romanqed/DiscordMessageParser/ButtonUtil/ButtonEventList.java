@@ -3,6 +3,7 @@ package com.github.romanqed.DiscordMessageParser.ButtonUtil;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ButtonEventList {
@@ -40,6 +41,11 @@ public class ButtonEventList {
         for (ButtonEvent event : eventList) {
             add(event);
         }
+    }
+
+    public void remove(String messageId) {
+        Optional<String> found = events.keySet().stream().findFirst().filter(item -> item.contains(messageId));
+        found.ifPresent(events::remove);
     }
 
     public int size() {

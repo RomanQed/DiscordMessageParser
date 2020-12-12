@@ -15,8 +15,10 @@ import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.Utils;
 import com.github.romanqed.DiscordMessageParser.EventUtil.DefaultEventHandler;
 import com.github.romanqed.DiscordMessageParser.EventUtil.IParseEventHandler;
 import net.dv8tion.jda.api.entities.MessageReaction;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionAddEvent;
 import org.jetbrains.annotations.NotNull;
@@ -122,5 +124,19 @@ public class DiscordMessageParser {
         }
         String id = event.getChannel().getId() + event.getMessageId() + reactionEmote.getEmoji();
         buttonEventList.execute(id, event.getUser());
+    }
+
+    public void processGuildMessageDelete(@NotNull GuildMessageDeleteEvent event) {
+        if (event == null) {
+            return;
+        }
+        buttonEventList.remove(event.getMessageId());
+    }
+
+    public void processPrivateMessageDelete(@NotNull PrivateMessageDeleteEvent event) {
+        if (event == null) {
+            return;
+        }
+        buttonEventList.remove(event.getMessageId());
     }
 }

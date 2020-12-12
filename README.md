@@ -1,4 +1,4 @@
-## DiscordMessageParser [ ![Download](https://api.bintray.com/packages/romanqed/maven/DiscordMessageParser/images/download.svg?version=0.0.10) ](https://bintray.com/romanqed/maven/DiscordMessageParser/0.0.7/link)
+## DiscordMessageParser [ ![Download](https://api.bintray.com/packages/romanqed/maven/DiscordMessageParser/images/download.svg?version=0.0.11) ](https://bintray.com/romanqed/maven/DiscordMessageParser/0.0.7/link)
 A simple library for parsing discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.
 
 

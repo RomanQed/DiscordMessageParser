@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,41 +23,45 @@ public class PrivateCommandEvent extends BotCommandEvent {
         return event;
     }
 
-    public void sendMessage(@NotNull Message message, @Nullable ButtonEvent buttonEvent) {
-        MessageAction action;
+    public void addEventToSentMessage(Message sentMessage, ButtonEvent event) {
         try {
-            action = event.getChannel().sendMessage(message);
+            sentMessage.addReaction(event.getUnicodeId()).queue();
+            event.setChannelId(sentMessage.getChannel().getId());
+            event.setMessageId(sentMessage.getId());
+            buttonEventList.add(event);
         } catch (Exception e) {
-            return;
-        }
-        if (buttonEvent != null) {
-            action.queue(sentMessage -> {
-                sentMessage.addReaction(buttonEvent.getUnicodeId()).queue();
-                buttonEvent.setChannelId(event.getChannel().getId());
-                buttonEvent.setMessageId(sentMessage.getId());
-                buttonEventList.add(buttonEvent);
-            });
-        } else {
-            action.queue();
+            System.err.println(e.getMessage());
         }
     }
 
-    public void sendMessage(@NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
+    public Message sendMessage(@NotNull Message message, @Nullable ButtonEvent buttonEvent) {
+        try {
+            Message sentMessage = event.getChannel().sendMessage(message).complete();
+            if (buttonEvent != null) {
+                addEventToSentMessage(sentMessage, buttonEvent);
+            }
+            return sentMessage;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Message sendMessage(@NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
         Message message;
         try {
             message = new MessageBuilder(rawMessage).build();
         } catch (Exception e) {
-            return;
+            return null;
         }
-        sendMessage(message, buttonEvent);
+        return sendMessage(message, buttonEvent);
     }
 
-    public void sendMessage(@NotNull Message message) {
-        sendMessage(message, null);
+    public Message sendMessage(@NotNull Message message) {
+        return sendMessage(message, null);
     }
 
-    public void sendMessage(@NotNull String rawMessage) {
-        sendMessage(rawMessage, null);
+    public Message sendMessage(@NotNull String rawMessage) {
+        return sendMessage(rawMessage, null);
     }
 
     public @NotNull User getAuthor() {

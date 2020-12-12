@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class GuildCommandEvent extends BotCommandEvent {
@@ -33,71 +34,66 @@ public class GuildCommandEvent extends BotCommandEvent {
         return guild;
     }
 
-    public void sendMessage(@NotNull TextChannel channel, @NotNull Message message, @Nullable ButtonEvent buttonEvent) {
-        MessageAction action;
+    public Message sendMessage(@NotNull TextChannel channel, @NotNull Message message, @Nullable ButtonEvent buttonEvent) {
         try {
-            action = channel.sendMessage(message);
-        } catch (Exception e) {
-            return;
-        }
-        if (buttonEvent != null) {
-            action.queue(sentMessage -> {
+            Message sentMessage = channel.sendMessage(message).complete();
+            if (buttonEvent != null) {
                 sentMessage.addReaction(buttonEvent.getUnicodeId()).queue();
                 buttonEvent.setChannelId(channel.getId());
                 buttonEvent.setMessageId(sentMessage.getId());
                 buttonEventList.add(buttonEvent);
-            });
-        } else {
-            action.queue();
+            }
+            return sentMessage;
+        }
+        catch (Exception e) {
+            return null;
         }
     }
 
-    public void sendMessage(@NotNull TextChannel channel, @NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
+    public Message sendMessage(@NotNull TextChannel channel, @NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
         Message message;
         try {
             message = new MessageBuilder(rawMessage).build();
         } catch (Exception e) {
-            return;
+            return null;
         }
-        sendMessage(channel, message, buttonEvent);
+        return sendMessage(channel, message, buttonEvent);
     }
 
-    public void sendMessage(@NotNull String channelId, @NotNull Message message, @Nullable ButtonEvent buttonEvent) {
+    public Message sendMessage(@NotNull String channelId, @NotNull Message message, @Nullable ButtonEvent buttonEvent) {
         TextChannel channel;
         try {
             channel = guild.getTextChannelById(channelId);
+            return sendMessage(channel, message, buttonEvent);
         } catch (Exception e) {
-            return;
-        }
-        if (channel != null) {
-            sendMessage(channel, message, buttonEvent);
+            return null;
         }
     }
 
-    public void sendMessage(@NotNull String channelId, @NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
+    public Message sendMessage(@NotNull String channelId, @NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
         Message message;
         try {
             message = new MessageBuilder(rawMessage).build();
         } catch (Exception e) {
-            return;
+            return null;
         }
-        sendMessage(channelId, message, buttonEvent);
+        return sendMessage(channelId, message, buttonEvent);
     }
 
-    public void sendMessage(@NotNull Message message, @Nullable ButtonEvent buttonEvent) {
-        sendMessage(event.getChannel(), message, buttonEvent);
+    public Message sendMessage(@NotNull Message message, @Nullable ButtonEvent buttonEvent) {
+        return sendMessage(event.getChannel(), message, buttonEvent);
     }
 
-    public void sendMessage(@NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
-        sendMessage(event.getChannel(), rawMessage, buttonEvent);
+    public Message sendMessage(@NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
+        return sendMessage(event.getChannel(), rawMessage, buttonEvent);
     }
 
-    public void sendMessage(@NotNull Message message) {
-        sendMessage(message, null);
+    public Message sendMessage(@NotNull Message message) {
+        return sendMessage(message, null);
     }
 
-    public void sendMessage(@NotNull String rawMessage) {
-        sendMessage(rawMessage, null);
+    public Message sendMessage(@NotNull String rawMessage) {
+        return sendMessage(rawMessage, null);
     }
 
     public @Nullable Member getAuthor() {

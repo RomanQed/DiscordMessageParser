@@ -3,7 +3,6 @@ package com.github.romanqed.DiscordMessageParser.JDAUtil;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.RegexUtil.ArgumentPattern;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.requests.restaction.pagination.MessagePaginationAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -198,8 +197,8 @@ public class JDAUtils {
         OffsetDateTime twoWeeksAgo = OffsetDateTime.now().minus(2, ChronoUnit.WEEKS);
         try {
             List<Message> messages = channel.getIterableHistory().complete();
-            messages.removeIf(item->{
-               return item.getTimeCreated().isBefore(twoWeeksAgo);
+            messages.removeIf(item -> {
+                return item.getTimeCreated().isBefore(twoWeeksAgo);
             });
             channel.deleteMessages(messages).queue();
             return true;

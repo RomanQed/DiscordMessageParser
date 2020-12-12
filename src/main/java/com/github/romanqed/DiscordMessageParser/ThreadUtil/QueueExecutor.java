@@ -53,7 +53,7 @@ public class QueueExecutor implements Runnable {
             }
         }
         needInterrupt.set(true);
-        synchronized (queue){
+        synchronized (queue) {
             queue.notify();
         }
     }

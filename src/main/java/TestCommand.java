@@ -11,6 +11,6 @@ public class TestCommand extends GuildCommand {
 
     @Override
     public void execute(GuildCommandEvent event, VariableList variableList) {
-
+        event.getContext().clearThisTextChannel();
     }
 }

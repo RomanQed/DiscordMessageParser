@@ -41,6 +41,58 @@ public class Variable {
         }
     }
 
+    public @Nullable String getString() {
+        return getValue();
+    }
+
+    public @Nullable Integer getInteger() {
+        return getValue();
+    }
+
+    public @Nullable Integer parseInteger() {
+        try {
+            return Integer.parseInt(getValue());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public @Nullable Double getDouble() {
+        return getValue();
+    }
+
+    public @Nullable Double parseDouble() {
+        try {
+            return Double.parseDouble(getValue());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public @Nullable Float getFloat() {
+        return getValue();
+    }
+
+    public @Nullable Float parseFloat() {
+        try {
+            return Float.parseFloat(getValue());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public @Nullable Boolean getBoolean() {
+        return getValue();
+    }
+
+    public @Nullable Boolean parseBoolean() {
+        try {
+            return Boolean.parseBoolean(getValue());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public <T> void setValue(@Nullable T value) {
         try {
             this.value = value;

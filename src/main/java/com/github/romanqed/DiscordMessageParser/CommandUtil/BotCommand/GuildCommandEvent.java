@@ -7,13 +7,11 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class GuildCommandEvent extends BotCommandEvent {
@@ -34,18 +32,25 @@ public class GuildCommandEvent extends BotCommandEvent {
         return guild;
     }
 
+    public void addEventToSentMessage(Message sentMessage, ButtonEvent event) {
+        try {
+            sentMessage.addReaction(event.getUnicodeId()).queue();
+            event.setChannelId(sentMessage.getChannel().getId());
+            event.setMessageId(sentMessage.getId());
+            buttonEventList.add(event);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public Message sendMessage(@NotNull TextChannel channel, @NotNull Message message, @Nullable ButtonEvent buttonEvent) {
         try {
             Message sentMessage = channel.sendMessage(message).complete();
             if (buttonEvent != null) {
-                sentMessage.addReaction(buttonEvent.getUnicodeId()).queue();
-                buttonEvent.setChannelId(channel.getId());
-                buttonEvent.setMessageId(sentMessage.getId());
-                buttonEventList.add(buttonEvent);
+                addEventToSentMessage(sentMessage, buttonEvent);
             }
             return sentMessage;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }

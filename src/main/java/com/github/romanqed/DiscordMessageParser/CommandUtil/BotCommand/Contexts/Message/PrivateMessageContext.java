@@ -10,11 +10,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PrivateMessageContext extends JDAContext {
-    private final PrivateChannel channel;
+    protected final PrivateChannel channel;
 
     public PrivateMessageContext(PrivateChannel channel, ButtonEventList buttonEventList) {
         super(channel.getJDA(), buttonEventList);
         this.channel = channel;
+    }
+
+    public PrivateChannel getChannel() {
+        return channel;
     }
 
     public Message sendMessage(@NotNull Message message, @Nullable ButtonEvent buttonEvent) {

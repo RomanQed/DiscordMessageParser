@@ -2,6 +2,8 @@ package com.github.romanqed.DiscordMessageParser;
 
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.BotRuntimeVariables.VariableList;
+import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Message.GuildReceivedContext;
+import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Message.PrivateReceivedContext;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.GuildCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.GuildCommandEvent;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.PrivateCommand;
@@ -43,13 +45,14 @@ public class DiscordMessageParser {
     public DiscordMessageParser(@NotNull CommandList commandList) {
         this(commandList, null);
     }
-
+    
     public void processGuildMessage(@NotNull GuildMessageReceivedEvent event) {
         if (event == null || event.getAuthor().isBot()) {
             return;
         }
+        GuildReceivedContext context = new GuildReceivedContext(event.getMessage(), buttonEventList);
         StringBuilder prefix = new StringBuilder();
-        if (eventHandler.onGuildMessageParsing(event, prefix)) {
+        if (eventHandler.onGuildMessageParsing(context, prefix)) {
             return;
         }
         ParseResult result = Utils.parseCommand(event.getMessage().getContentRaw(), prefix.toString());
@@ -58,7 +61,7 @@ public class DiscordMessageParser {
         }
         Command uncheckedCommand = commandList.getCommand(result.commandBody, CommandType.GuildCommand);
         if (uncheckedCommand.isEmpty()) {
-            eventHandler.onGuildEmptyCommand(event);
+            eventHandler.onGuildEmptyCommand(context);
             return;
         }
         GuildCommand command = (GuildCommand) uncheckedCommand;
@@ -66,11 +69,11 @@ public class DiscordMessageParser {
             return;
         }
         if (!Utils.validateCommandRoles(command.getRoles(), event.getMember().getRoles())) {
-            eventHandler.onGuildRoleError(event);
+            eventHandler.onGuildRoleError(context);
             return;
         }
         if (!event.getMember().hasPermission(command.getPermissions())) {
-            eventHandler.onGuildPermissionError(event);
+            eventHandler.onGuildPermissionError(context);
             return;
         }
         String guildId = event.getGuild().getId();
@@ -78,15 +81,16 @@ public class DiscordMessageParser {
             environmentList.put(guildId, new VariableList());
         }
         VariableList variableList = environmentList.get(guildId);
-        command.execute(new GuildCommandEvent(event, result.rawArguments, buttonEventList), variableList);
+        command.execute(new GuildCommandEvent(context, result.rawArguments), variableList);
     }
 
     public void processPrivateMessage(@NotNull PrivateMessageReceivedEvent event) {
         if (event == null || event.getAuthor().isBot()) {
             return;
         }
+        PrivateReceivedContext context = new PrivateReceivedContext(event.getMessage(), buttonEventList);
         StringBuilder prefix = new StringBuilder();
-        if (eventHandler.onPrivateMessageParsing(event, prefix)) {
+        if (eventHandler.onPrivateMessageParsing(context, prefix)) {
             return;
         }
         ParseResult result = Utils.parseCommand(event.getMessage().getContentRaw(), prefix.toString());
@@ -95,11 +99,11 @@ public class DiscordMessageParser {
         }
         Command uncheckedCommand = commandList.getCommand(result.commandBody, CommandType.PrivateCommand);
         if (uncheckedCommand.isEmpty()) {
-            eventHandler.onPrivateEmptyCommand(event);
+            eventHandler.onPrivateEmptyCommand(context);
             return;
         }
         PrivateCommand command = (PrivateCommand) uncheckedCommand;
-        command.execute(new PrivateCommandEvent(event, result.rawArguments, buttonEventList));
+        command.execute(new PrivateCommandEvent(context, result.rawArguments));
     }
 
     public void processGuildReaction(@NotNull GuildMessageReactionAddEvent event) {

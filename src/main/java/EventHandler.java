@@ -1,24 +1,24 @@
+import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Message.GuildReceivedContext;
 import com.github.romanqed.DiscordMessageParser.EventUtil.IParseEventHandler;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class EventHandler implements IParseEventHandler {
     @Override
-    public void onGuildEmptyCommand(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("empty_cmd").queue();
+    public void onGuildEmptyCommand(GuildReceivedContext context) {
+        context.sendMessage("empty_cmd");
     }
 
     @Override
-    public void onGuildPermissionError(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("permission_err").queue();
+    public void onGuildPermissionError(GuildReceivedContext context) {
+        context.sendMessage("permission_err");
     }
 
     @Override
-    public void onGuildRoleError(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("role_err").queue();
+    public void onGuildRoleError(GuildReceivedContext context) {
+        context.sendMessage("role_err");
     }
 
     @Override
-    public boolean onGuildMessageParsing(GuildMessageReceivedEvent event, StringBuilder prefix) {
+    public boolean onGuildMessageParsing(GuildReceivedContext context, StringBuilder prefix) {
         prefix.append("!");
         return false;
     }

@@ -10,11 +10,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class GuildMessageContext extends GuildContext {
-    private final TextChannel channel;
+    protected final TextChannel channel;
 
     public GuildMessageContext(TextChannel channel, ButtonEventList buttonEventList) {
         super(channel.getGuild(), buttonEventList);
         this.channel = channel;
+    }
+
+    public TextChannel getChannel() {
+        return channel;
     }
 
     public Message sendMessage(@NotNull Message message, @Nullable ButtonEvent buttonEvent) {

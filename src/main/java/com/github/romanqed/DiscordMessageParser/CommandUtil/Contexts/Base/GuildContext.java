@@ -79,7 +79,7 @@ public class GuildContext extends GenericContext {
 
     public @Nullable User getBannedUserById(long userId) {
         try {
-            return JDAUtils.getUserBanById(getGuildBanList(), userId).getUser();
+            return guild.retrieveBanById(userId).complete().getUser();
         } catch (Exception e) {
             return null;
         }
@@ -87,7 +87,7 @@ public class GuildContext extends GenericContext {
 
     public @Nullable User getBannedUserById(@NotNull String userId) {
         try {
-            return JDAUtils.getUserBanById(getGuildBanList(), Long.parseLong(userId)).getUser();
+            return guild.retrieveBanById(userId).complete().getUser();
         } catch (Exception e) {
             return null;
         }

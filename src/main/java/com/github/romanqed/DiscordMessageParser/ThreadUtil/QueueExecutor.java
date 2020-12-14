@@ -1,7 +1,5 @@
 package com.github.romanqed.DiscordMessageParser.ThreadUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -58,7 +56,7 @@ public class QueueExecutor implements Runnable {
         }
     }
 
-    public void addToQueue(@NotNull Runnable runnable) {
+    public void addToQueue(Runnable runnable) {
         runnable = Objects.requireNonNullElse(runnable, () -> {
         });
         synchronized (queue) {

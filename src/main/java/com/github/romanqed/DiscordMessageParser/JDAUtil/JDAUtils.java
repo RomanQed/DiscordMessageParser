@@ -22,20 +22,6 @@ public class JDAUtils {
         return userMention.replace("!", "").replace("<@", "").replace(">", "");
     }
 
-    public static @Nullable Guild.Ban getUserBanById(@NotNull List<Guild.Ban> banList, long id) {
-        if (banList == null) {
-            return null;
-        }
-        Optional<Guild.Ban> ban = banList.stream().findFirst().filter(predicate -> {
-            return predicate.getUser().getIdLong() == id;
-        });
-        try {
-            return ban.get();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     public static @Nullable Guild.Ban getUserBanByUserTag(@NotNull List<Guild.Ban> banList, @NotNull String userTag) {
         if (banList == null) {
             return null;

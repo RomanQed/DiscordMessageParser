@@ -1,30 +1,30 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.Variables;
+package com.github.romanqed.DiscordMessageParser.ContainerUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class Variable {
+public class Container {
     private final String name;
     private Object value;
     private String tag;
 
-    public <T> Variable(@NotNull String name, T value, @NotNull String tag) {
+    public <T> Container(@NotNull String name, T value, @NotNull String tag) {
         this.name = Objects.requireNonNullElse(name, "");
         this.value = value;
         this.tag = Objects.requireNonNullElse(tag, "");
     }
 
-    public <T> Variable(@NotNull String name, @Nullable T value) {
+    public <T> Container(@NotNull String name, @Nullable T value) {
         this(name, value, "");
     }
 
-    public Variable(@NotNull String name) {
+    public Container(@NotNull String name) {
         this(name, null, "");
     }
 
-    public Variable() {
+    public Container() {
         this("", null, "");
     }
 

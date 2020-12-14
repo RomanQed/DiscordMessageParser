@@ -2,6 +2,7 @@ import com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Proce
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.GuildCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.PrivateCommand;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
 
 import java.util.Set;
 import java.util.concurrent.Callable;

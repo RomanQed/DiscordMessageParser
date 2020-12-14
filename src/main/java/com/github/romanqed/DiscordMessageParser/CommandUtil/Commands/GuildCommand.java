@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +40,14 @@ public class GuildCommand extends GenericCommand {
 
     public Set<String> getRoles() {
         return roles;
+    }
+
+    public void addRoles(String... roles) {
+        Collections.addAll(this.roles, roles);
+    }
+
+    public void addPermissions(Permission... permissions) {
+        Collections.addAll(this.permissions, permissions);
     }
 
     public boolean canBeExecutedWithRoles(Collection<Role> roles) {
@@ -76,6 +85,6 @@ public class GuildCommand extends GenericCommand {
 
     @Override
     public String toString() {
-        return "[Guild] " + name;
+        return "[Guild] " + name + " [Permissions] " + permissions.toString() + " [Roles] " + roles.toString();
     }
 }

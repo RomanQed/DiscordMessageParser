@@ -3,7 +3,7 @@ package com.github.romanqed.DiscordMessageParser;
 public class DiscordMessageParser {
 //    private final CommandList commandList;
 //    private final IParseEventHandler eventHandler;
-//    private final ConcurrentHashMap<String, VariableList> environmentList;
+//    private final ConcurrentHashMap<String, ContainerCollection> environmentList;
 //    private final EventCollection eventCollection;
 //
 //    public DiscordMessageParser(@NotNull CommandList commandList, @Nullable IParseEventHandler eventHandler) {
@@ -49,9 +49,9 @@ public class DiscordMessageParser {
 //        }
 //        String guildId = event.getGuild().getId();
 //        if (!environmentList.containsKey(guildId)) {
-//            environmentList.put(guildId, new VariableList());
+//            environmentList.put(guildId, new ContainerCollection());
 //        }
-//        VariableList variableList = environmentList.get(guildId);
+//        ContainerCollection variableList = environmentList.get(guildId);
 //        command.execute(new GuildCommandEvent(context, result.rawArguments), variableList);
 //    }
 //

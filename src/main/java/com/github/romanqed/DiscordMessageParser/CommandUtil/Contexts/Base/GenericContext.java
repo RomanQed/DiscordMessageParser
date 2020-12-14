@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Base;
+package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base;
 
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEvent;
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
@@ -8,10 +8,10 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BaseContext {
+public class GenericContext {
     protected final ButtonEventList buttonEventList;
 
-    public BaseContext(ButtonEventList buttonEventList) {
+    public GenericContext(ButtonEventList buttonEventList) {
         this.buttonEventList = buttonEventList;
     }
 

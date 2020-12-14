@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.RegexUtil;
+package com.github.romanqed.DiscordMessageParser.RegexUtil;
 
 import java.util.ArrayList;
 import java.util.List;

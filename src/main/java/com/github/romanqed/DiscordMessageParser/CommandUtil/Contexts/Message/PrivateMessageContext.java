@@ -1,23 +1,23 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Message;
+package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message;
 
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEvent;
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
-import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Base.GuildContext;
-import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
+import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base.JDAContext;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GuildMessageContext extends GuildContext {
-    protected final TextChannel channel;
+public class PrivateMessageContext extends JDAContext {
+    protected final PrivateChannel channel;
 
-    public GuildMessageContext(TextChannel channel, ButtonEventList buttonEventList) {
-        super(channel.getGuild(), buttonEventList);
+    public PrivateMessageContext(PrivateChannel channel, ButtonEventList buttonEventList) {
+        super(channel.getJDA(), buttonEventList);
         this.channel = channel;
     }
 
-    public TextChannel getChannel() {
+    public PrivateChannel getChannel() {
         return channel;
     }
 
@@ -26,7 +26,13 @@ public class GuildMessageContext extends GuildContext {
     }
 
     public Message sendMessage(@NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
-        return sendMessage(channel, rawMessage, buttonEvent);
+        Message message;
+        try {
+            message = new MessageBuilder(rawMessage).build();
+        } catch (Exception e) {
+            return null;
+        }
+        return sendMessage(message, buttonEvent);
     }
 
     public Message sendMessage(@NotNull Message message) {
@@ -35,9 +41,5 @@ public class GuildMessageContext extends GuildContext {
 
     public Message sendMessage(@NotNull String rawMessage) {
         return sendMessage(rawMessage, null);
-    }
-
-    public boolean clearThisTextChannel() {
-        return JDAUtils.clearTextChannel(channel);
     }
 }

@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Base;
+package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base;
 
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEvent;
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class GuildContext extends BaseContext {
+public class GuildContext extends GenericContext {
     private final Guild guild;
 
     public GuildContext(Guild guild, ButtonEventList buttonEventList) {

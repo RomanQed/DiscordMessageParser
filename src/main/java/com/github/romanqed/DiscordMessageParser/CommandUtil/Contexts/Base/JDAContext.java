@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Base;
+package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base;
 
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.Nullable;
 
-public class JDAContext extends BaseContext {
+public class JDAContext extends GenericContext {
     protected final JDA jda;
 
     public JDAContext(JDA jda, ButtonEventList buttonEventList) {

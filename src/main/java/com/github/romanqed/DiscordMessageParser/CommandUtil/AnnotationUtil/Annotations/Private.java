@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.ServiceAnnotation;
+package com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Annotations;
 
 import org.atteo.classindex.IndexAnnotated;
 
@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 
 @IndexAnnotated
-public @interface BotCommand {
+public @interface Private {
 }

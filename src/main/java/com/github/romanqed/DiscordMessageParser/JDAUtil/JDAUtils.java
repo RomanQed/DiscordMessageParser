@@ -1,6 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.JDAUtil;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.RegexUtil.ArgumentPattern;
+import com.github.romanqed.DiscordMessageParser.RegexUtil.ArgumentPattern;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import org.jetbrains.annotations.NotNull;

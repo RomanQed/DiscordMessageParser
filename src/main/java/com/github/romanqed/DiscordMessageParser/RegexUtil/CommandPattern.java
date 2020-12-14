@@ -1,12 +1,12 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.RegexUtil;
+package com.github.romanqed.DiscordMessageParser.RegexUtil;
 
 import java.util.regex.Pattern;
 
-public enum ParsePattern {
-    BOT_ARGUMENTS("\"([^\"]+)\"|\\S+");
+public enum CommandPattern {
+    COMMAND_ARGUMENTS("\"([^\"]+)\"|\\S+");
     private final Pattern pattern;
 
-    ParsePattern(String regex) {
+    CommandPattern(String regex) {
         this.pattern = Pattern.compile(regex, Pattern.MULTILINE);
     }
 

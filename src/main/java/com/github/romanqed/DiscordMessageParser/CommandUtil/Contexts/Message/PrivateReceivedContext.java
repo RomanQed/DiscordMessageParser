@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.Contexts.Message;
+package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message;
 
 import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
 import net.dv8tion.jda.api.entities.Message;

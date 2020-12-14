@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.BotRuntimeVariables;
+package com.github.romanqed.DiscordMessageParser.CommandUtil.Variables;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

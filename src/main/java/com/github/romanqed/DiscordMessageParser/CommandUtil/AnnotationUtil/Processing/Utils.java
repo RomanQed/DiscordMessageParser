@@ -29,7 +29,6 @@ public class Utils {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends GenericCommand> Set<T> getAnnotatedCommands(Class<T> command, Class<? extends Annotation> annotation) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         Iterable<Class<?>> classes = ClassIndex.getAnnotated(annotation);
         Set<T> commands = new HashSet<>();

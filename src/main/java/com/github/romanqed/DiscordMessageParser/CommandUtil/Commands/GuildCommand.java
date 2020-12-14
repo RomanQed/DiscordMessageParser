@@ -2,6 +2,7 @@ package com.github.romanqed.DiscordMessageParser.CommandUtil.Commands;
 
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message.GuildReceivedContext;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 
 import java.util.Collection;
@@ -40,7 +41,7 @@ public class GuildCommand extends GenericCommand {
         return roles;
     }
 
-    public boolean canBeExecuted(Collection<Role> roles) {
+    public boolean canBeExecutedWithRoles(Collection<Role> roles) {
         if (this.roles.isEmpty()) {
             return true;
         }
@@ -53,6 +54,20 @@ public class GuildCommand extends GenericCommand {
             }
         }
         return true;
+    }
+
+    public boolean canBeExecutedWithPermissions(Collection<Permission> permissions) {
+        if (this.permissions.isEmpty()) {
+            return true;
+        }
+        if (this.permissions.size() > permissions.size()) {
+            return false;
+        }
+        return permissions.containsAll(this.permissions);
+    }
+
+    public boolean canBeExecutedByMember(Member member) {
+        return canBeExecutedWithRoles(member.getRoles()) && member.hasPermission(permissions);
     }
 
     public void execute(GuildReceivedContext context) {

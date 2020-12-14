@@ -4,9 +4,13 @@ import java.util.Objects;
 
 public class CommandParser {
     public static final String DEFAULT_COMMAND_PREFIX = "!";
-    private final String commandPrefix;
+    private String commandPrefix;
 
     public CommandParser(String commandPrefix) {
+        setPrefix(commandPrefix);
+    }
+
+    public void setPrefix(String commandPrefix) {
         this.commandPrefix = Objects.requireNonNullElse(commandPrefix, DEFAULT_COMMAND_PREFIX);
     }
 

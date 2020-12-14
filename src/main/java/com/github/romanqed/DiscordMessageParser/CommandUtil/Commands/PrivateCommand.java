@@ -7,6 +7,10 @@ public class PrivateCommand extends GenericCommand {
         super(name);
     }
 
+    public PrivateCommand() {
+        super(null);
+    }
+
     public void execute(PrivateReceivedContext context) {
         context.sendMessage(toString());
     }

@@ -34,6 +34,10 @@ public class GuildCommand extends GenericCommand {
         this(name, null, null);
     }
 
+    public GuildCommand() {
+        this(null, null, null);
+    }
+
     public Set<Permission> getPermissions() {
         return permissions;
     }

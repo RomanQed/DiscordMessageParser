@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.ButtonUtil;
+package com.github.romanqed.DiscordMessageParser.ReactionUtil;
 
 import net.dv8tion.jda.api.entities.User;
 
@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ButtonEventList {
-    private final ConcurrentHashMap<String, ButtonEvent> events;
+// TODO Сделать удаление отживших событий
+public class EventCollection {
+    private final ConcurrentHashMap<String, EmojiEvent> events;
 
-    public ButtonEventList() {
+    public EventCollection() {
         events = new ConcurrentHashMap<>();
     }
 
@@ -17,28 +18,30 @@ public class ButtonEventList {
         if (id == null || user == null) {
             return;
         }
-        ButtonEvent event = events.get(id);
+        EmojiEvent event = events.get(id);
         if (event == null) {
             return;
         }
-        event.getAction().accept(user);
-        if (event.getLifeTime() == ButtonEventLifeTime.DISPOSABLE) {
+        if (event.getRemainingLifeTime() == 0) {
             events.remove(id);
+        }
+        else {
+            event.call(user);
         }
     }
 
-    public void add(ButtonEvent event) {
+    public void add(EmojiEvent event) {
         if (event == null) {
             return;
         }
         events.put(event.getId(), event);
     }
 
-    public void add(List<ButtonEvent> eventList) {
+    public void add(List<EmojiEvent> eventList) {
         if (eventList == null) {
             return;
         }
-        for (ButtonEvent event : eventList) {
+        for (EmojiEvent event : eventList) {
             add(event);
         }
     }

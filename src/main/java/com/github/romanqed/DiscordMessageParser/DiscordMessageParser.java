@@ -4,13 +4,13 @@ public class DiscordMessageParser {
 //    private final CommandList commandList;
 //    private final IParseEventHandler eventHandler;
 //    private final ConcurrentHashMap<String, VariableList> environmentList;
-//    private final ButtonEventList buttonEventList;
+//    private final EventCollection eventCollection;
 //
 //    public DiscordMessageParser(@NotNull CommandList commandList, @Nullable IParseEventHandler eventHandler) {
 //        this.commandList = Objects.requireNonNullElse(commandList, new CommandList());
 //        this.eventHandler = Objects.requireNonNullElse(eventHandler, new DefaultEventHandler());
 //        environmentList = new ConcurrentHashMap<>();
-//        buttonEventList = new ButtonEventList();
+//        eventCollection = new EventCollection();
 //    }
 //
 //    public DiscordMessageParser(@NotNull CommandList commandList) {
@@ -21,7 +21,7 @@ public class DiscordMessageParser {
 //        if (event == null || event.getAuthor().isBot()) {
 //            return;
 //        }
-//        GuildReceivedContext context = new GuildReceivedContext(event.getMessage(), buttonEventList);
+//        GuildReceivedContext context = new GuildReceivedContext(event.getMessage(), eventCollection);
 //        StringBuilder prefix = new StringBuilder();
 //        if (eventHandler.onGuildMessageParsing(context, prefix)) {
 //            return;
@@ -59,7 +59,7 @@ public class DiscordMessageParser {
 //        if (event == null || event.getAuthor().isBot()) {
 //            return;
 //        }
-//        PrivateReceivedContext context = new PrivateReceivedContext(event.getMessage(), buttonEventList);
+//        PrivateReceivedContext context = new PrivateReceivedContext(event.getMessage(), eventCollection);
 //        StringBuilder prefix = new StringBuilder();
 //        if (eventHandler.onPrivateMessageParsing(context, prefix)) {
 //            return;
@@ -86,7 +86,7 @@ public class DiscordMessageParser {
 //            return;
 //        }
 //        String id = event.getChannel().getId() + event.getMessageId() + reactionEmote.getEmoji();
-//        buttonEventList.execute(id, event.getUser());
+//        eventCollection.execute(id, event.getUser());
 //    }
 //
 //    public void processPrivateReaction(@NotNull PrivateMessageReactionAddEvent event) {
@@ -98,20 +98,20 @@ public class DiscordMessageParser {
 //            return;
 //        }
 //        String id = event.getChannel().getId() + event.getMessageId() + reactionEmote.getEmoji();
-//        buttonEventList.execute(id, event.getUser());
+//        eventCollection.execute(id, event.getUser());
 //    }
 //
 //    public void processGuildMessageDelete(@NotNull GuildMessageDeleteEvent event) {
 //        if (event == null) {
 //            return;
 //        }
-//        buttonEventList.remove(event.getMessageId());
+//        eventCollection.remove(event.getMessageId());
 //    }
 //
 //    public void processPrivateMessageDelete(@NotNull PrivateMessageDeleteEvent event) {
 //        if (event == null) {
 //            return;
 //        }
-//        buttonEventList.remove(event.getMessageId());
+//        eventCollection.remove(event.getMessageId());
 //    }
 }

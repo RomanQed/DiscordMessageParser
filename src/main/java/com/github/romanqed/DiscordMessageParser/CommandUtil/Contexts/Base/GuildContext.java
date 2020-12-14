@@ -1,7 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base;
 
-import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEvent;
-import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -16,8 +16,8 @@ import java.util.function.Consumer;
 public class GuildContext extends GenericContext {
     private final Guild guild;
 
-    public GuildContext(Guild guild, ButtonEventList buttonEventList) {
-        super(buttonEventList);
+    public GuildContext(Guild guild, EventCollection eventCollection) {
+        super(eventCollection);
         this.guild = guild;
     }
 
@@ -29,24 +29,24 @@ public class GuildContext extends GenericContext {
         return guild.getId();
     }
 
-    public Message sendMessage(@NotNull String channelId, @NotNull Message message, @Nullable ButtonEvent buttonEvent) {
+    public Message sendMessage(@NotNull String channelId, @NotNull Message message, @Nullable EmojiEvent emojiEvent) {
         TextChannel channel;
         try {
             channel = guild.getTextChannelById(channelId);
-            return sendMessage(channel, message, buttonEvent);
+            return sendMessage(channel, message, emojiEvent);
         } catch (Exception e) {
             return null;
         }
     }
 
-    public Message sendMessage(@NotNull String channelId, @NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
+    public Message sendMessage(@NotNull String channelId, @NotNull String rawMessage, @Nullable EmojiEvent emojiEvent) {
         Message message;
         try {
             message = new MessageBuilder(rawMessage).build();
         } catch (Exception e) {
             return null;
         }
-        return sendMessage(channelId, message, buttonEvent);
+        return sendMessage(channelId, message, emojiEvent);
     }
 
     public @Nullable List<Guild.Ban> getGuildBanList() {

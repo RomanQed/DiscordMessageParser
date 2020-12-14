@@ -1,7 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base;
 
-import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEvent;
-import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -9,28 +9,28 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class GenericContext {
-    protected final ButtonEventList buttonEventList;
+    protected final EventCollection eventCollection;
 
-    public GenericContext(ButtonEventList buttonEventList) {
-        this.buttonEventList = buttonEventList;
+    public GenericContext(EventCollection eventCollection) {
+        this.eventCollection = eventCollection;
     }
 
-    public void addEventToSentMessage(Message sentMessage, ButtonEvent event) {
+    public void addEventToSentMessage(Message sentMessage, EmojiEvent event) {
         try {
             sentMessage.addReaction(event.getUnicodeId()).queue();
             event.setChannelId(sentMessage.getChannel().getId());
             event.setMessageId(sentMessage.getId());
-            buttonEventList.add(event);
+            eventCollection.add(event);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public Message sendMessage(@NotNull MessageChannel channel, @NotNull Message message, @Nullable ButtonEvent buttonEvent) {
+    public Message sendMessage(@NotNull MessageChannel channel, @NotNull Message message, @Nullable EmojiEvent emojiEvent) {
         try {
             Message sentMessage = channel.sendMessage(message).complete();
-            if (buttonEvent != null) {
-                addEventToSentMessage(sentMessage, buttonEvent);
+            if (emojiEvent != null) {
+                addEventToSentMessage(sentMessage, emojiEvent);
             }
             return sentMessage;
         } catch (Exception e) {
@@ -38,13 +38,13 @@ public class GenericContext {
         }
     }
 
-    public Message sendMessage(@NotNull MessageChannel channel, @NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
+    public Message sendMessage(@NotNull MessageChannel channel, @NotNull String rawMessage, @Nullable EmojiEvent emojiEvent) {
         Message message;
         try {
             message = new MessageBuilder(rawMessage).build();
         } catch (Exception e) {
             return null;
         }
-        return sendMessage(channel, message, buttonEvent);
+        return sendMessage(channel, message, emojiEvent);
     }
 }

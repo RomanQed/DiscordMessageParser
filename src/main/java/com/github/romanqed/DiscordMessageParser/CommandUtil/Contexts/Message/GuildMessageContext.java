@@ -1,7 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message;
 
-import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEvent;
-import com.github.romanqed.DiscordMessageParser.ButtonUtil.ButtonEventList;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base.GuildContext;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
 import net.dv8tion.jda.api.entities.Message;
@@ -12,8 +12,8 @@ import org.jetbrains.annotations.Nullable;
 public class GuildMessageContext extends GuildContext {
     protected final TextChannel channel;
 
-    public GuildMessageContext(TextChannel channel, ButtonEventList buttonEventList) {
-        super(channel.getGuild(), buttonEventList);
+    public GuildMessageContext(TextChannel channel, EventCollection eventCollection) {
+        super(channel.getGuild(), eventCollection);
         this.channel = channel;
     }
 
@@ -21,12 +21,12 @@ public class GuildMessageContext extends GuildContext {
         return channel;
     }
 
-    public Message sendMessage(@NotNull Message message, @Nullable ButtonEvent buttonEvent) {
-        return sendMessage(channel, message, buttonEvent);
+    public Message sendMessage(@NotNull Message message, @Nullable EmojiEvent emojiEvent) {
+        return sendMessage(channel, message, emojiEvent);
     }
 
-    public Message sendMessage(@NotNull String rawMessage, @Nullable ButtonEvent buttonEvent) {
-        return sendMessage(channel, rawMessage, buttonEvent);
+    public Message sendMessage(@NotNull String rawMessage, @Nullable EmojiEvent emojiEvent) {
+        return sendMessage(channel, rawMessage, emojiEvent);
     }
 
     public Message sendMessage(@NotNull Message message) {

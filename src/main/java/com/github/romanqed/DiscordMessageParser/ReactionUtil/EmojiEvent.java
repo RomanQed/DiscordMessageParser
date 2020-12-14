@@ -1,32 +1,33 @@
-package com.github.romanqed.DiscordMessageParser.ButtonUtil;
+package com.github.romanqed.DiscordMessageParser.ReactionUtil;
 
 import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class ButtonEvent {
+public class EmojiEvent {
     private final String unicodeId;
-    private final ButtonEventLifeTime lifeTime;
+    private final long finalTime;
     private final Consumer<User> action;
     private String messageId;
     private String channelId;
 
-    public ButtonEvent(@NotNull String unicodeId, @NotNull ButtonEventLifeTime lifeTime, @NotNull Consumer<User> action) {
+    // TODO сделать количество нажатий
+    public EmojiEvent(@Nullable String unicodeId, int lifeTime, @Nullable Consumer<User> action) {
         this.unicodeId = Objects.requireNonNullElse(unicodeId, "\uD83D\uDE00");
-        this.lifeTime = Objects.requireNonNullElse(lifeTime, ButtonEventLifeTime.DISPOSABLE);
-        this.action = Objects.requireNonNullElse(action, user -> {
-        });
+        this.finalTime = System.currentTimeMillis() + lifeTime;
+        this.action = Objects.requireNonNullElse(action, user -> {});
     }
 
-    public static ButtonEvent createInfEvent(@NotNull String unicodeId, @NotNull Consumer<User> action) {
-        return new ButtonEvent(unicodeId, ButtonEventLifeTime.INFINITE, action);
+    public EmojiEvent(int lifeTime, @Nullable Consumer<User> action) {
+        this(null, lifeTime, action);
     }
 
-    public static ButtonEvent createDisEvent(@NotNull String unicodeId, @NotNull Consumer<User> action) {
-        return new ButtonEvent(unicodeId, ButtonEventLifeTime.DISPOSABLE, action);
+    public EmojiEvent(int lifeTime) {
+        this(null, lifeTime, null);
     }
 
     public @NotNull String getChannelId() {
@@ -38,6 +39,14 @@ public class ButtonEvent {
             this.channelId = channelId;
         } else {
             throw new IllegalArgumentException("Invalid id!");
+        }
+    }
+
+    public void call(User user) {
+        try {
+            action.accept(user);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
@@ -53,8 +62,12 @@ public class ButtonEvent {
         }
     }
 
-    public @NotNull ButtonEventLifeTime getLifeTime() {
-        return lifeTime;
+    public int getRemainingLifeTime() {
+        long result = finalTime - System.currentTimeMillis();
+        if (result < 0) {
+            return 0;
+        }
+        return (int) result;
     }
 
     public @NotNull String getId() {
@@ -63,9 +76,5 @@ public class ButtonEvent {
 
     public @NotNull String getUnicodeId() {
         return unicodeId;
-    }
-
-    public @NotNull Consumer<User> getAction() {
-        return action;
     }
 }

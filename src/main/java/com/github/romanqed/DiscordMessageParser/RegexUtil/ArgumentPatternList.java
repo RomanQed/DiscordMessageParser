@@ -19,7 +19,7 @@ public class ArgumentPatternList {
         }
     }
 
-    public boolean validateArgumentList(List<String> arguments) {
+    public boolean processArgumentList(List<String> arguments) {
         if (arguments == null) {
             return false;
         }

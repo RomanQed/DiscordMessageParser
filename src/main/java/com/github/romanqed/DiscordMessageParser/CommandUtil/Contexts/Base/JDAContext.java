@@ -1,7 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base;
 
-import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.Nullable;

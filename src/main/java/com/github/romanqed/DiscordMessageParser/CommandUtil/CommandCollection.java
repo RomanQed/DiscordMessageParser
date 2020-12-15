@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class CommandCollection <T extends GenericCommand> {
+public class CommandCollection<T extends GenericCommand> {
     private final Map<String, T> collection;
 
     public CommandCollection(Collection<T> commands) {

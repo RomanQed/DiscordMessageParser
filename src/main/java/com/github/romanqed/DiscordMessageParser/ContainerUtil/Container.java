@@ -41,6 +41,14 @@ public class Container {
         }
     }
 
+    public <T> void setValue(@Nullable T value) {
+        try {
+            this.value = value;
+        } catch (ClassCastException e) {
+            this.value = null;
+        }
+    }
+
     public @Nullable String getString() {
         return getValue();
     }
@@ -90,14 +98,6 @@ public class Container {
             return Boolean.parseBoolean(getValue());
         } catch (Exception e) {
             return null;
-        }
-    }
-
-    public <T> void setValue(@Nullable T value) {
-        try {
-            this.value = value;
-        } catch (ClassCastException e) {
-            this.value = null;
         }
     }
 

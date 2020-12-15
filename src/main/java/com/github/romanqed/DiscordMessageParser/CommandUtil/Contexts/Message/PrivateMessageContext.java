@@ -1,8 +1,8 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message;
 
+import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base.JDAContext;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base.JDAContext;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PrivateChannel;

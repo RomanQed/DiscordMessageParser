@@ -24,8 +24,7 @@ public class EventCollection {
         }
         if (event.getRemainingLifeTime() == 0) {
             events.remove(id);
-        }
-        else {
+        } else {
             event.call(user);
         }
     }

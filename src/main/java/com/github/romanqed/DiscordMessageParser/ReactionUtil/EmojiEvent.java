@@ -19,7 +19,8 @@ public class EmojiEvent {
     public EmojiEvent(@Nullable String unicodeId, int lifeTime, @Nullable Consumer<User> action) {
         this.unicodeId = Objects.requireNonNullElse(unicodeId, "\uD83D\uDE00");
         this.finalTime = System.currentTimeMillis() + lifeTime;
-        this.action = Objects.requireNonNullElse(action, user -> {});
+        this.action = Objects.requireNonNullElse(action, user -> {
+        });
     }
 
     public EmojiEvent(int lifeTime, @Nullable Consumer<User> action) {

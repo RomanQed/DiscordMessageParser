@@ -4,7 +4,9 @@ import com.github.romanqed.DiscordMessageParser.RegexUtil.ArgumentPattern;
 import com.github.romanqed.DiscordMessageParser.RegexUtil.ArgumentPatternList;
 import com.github.romanqed.DiscordMessageParser.RegexUtil.CommandPattern;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class ArgumentParser {

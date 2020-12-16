@@ -5,11 +5,11 @@ import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
 @Guild
 public class TestGuildCommand extends GuildCommand {
     public TestGuildCommand() {
-        //addRoles("rofl!");
+//        addRoles("rofl!");
     }
 
     @Override
     public void execute(Context context) {
-        context.getJDAWrapper().reply(context.getArgumentParser().parseArguments().toString());
+        context.getJDAWrapper().reply(":ping_pong:");
     }
 }

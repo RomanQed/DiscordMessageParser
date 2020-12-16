@@ -19,6 +19,10 @@ public interface EmojiEvent {
 
     void call(User sender);
 
+    void finalEvent();
+
+    void atFinal(Runnable action);
+
     int getRemainingLifeTime();
 
     int getRemainingCalls();

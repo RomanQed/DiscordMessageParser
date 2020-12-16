@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.entities.User;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-// TODO Сделать удаление отживших событий в отдельном потоке
 public class EventCollection {
     private final ConcurrentHashMap<Long, EmojiEvent> events;
 
@@ -22,6 +21,7 @@ public class EventCollection {
             return;
         }
         if (event.isFinished()) {
+            event.finalEvent();
             events.remove(id);
         } else {
             event.call(user);
@@ -44,7 +44,11 @@ public class EventCollection {
         }
     }
 
-    public void remove(long messageId) {
+    public void remove(long id) {
+        events.remove(id);
+    }
+
+    public void removeByMessageId(long messageId) {
         events.values().removeIf(item -> item.getMessageId() == messageId);
     }
 

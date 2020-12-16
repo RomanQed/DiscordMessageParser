@@ -2,7 +2,7 @@ package com.github.romanqed.DiscordMessageParser.ThreadUtil;
 
 import java.util.Collection;
 
-public class Utils {
+public class ThreadUtils {
     public static final long MIN_FREEZE_TIME = 60000;
     public static final long DEFAULT_FREEZE_TIME = 300000;
     public static final long EXTENDED_FREEZE_TIME = 600000;

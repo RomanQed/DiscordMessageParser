@@ -26,7 +26,7 @@ public class DiscordMessageParser {
 //        if (eventHandler.onGuildMessageParsing(context, prefix)) {
 //            return;
 //        }
-//        ProcessedCommand result = Utils.parseCommand(event.getMessage().getContentRaw(), prefix.toString());
+//        ProcessedCommand result = ThreadUtils.parseCommand(event.getMessage().getContentRaw(), prefix.toString());
 //        if (result.parseResult == ResultEnum.ERROR) {
 //            return;
 //        }
@@ -39,7 +39,7 @@ public class DiscordMessageParser {
 //        if (event.getMember() == null) {
 //            return;
 //        }
-//        if (!Utils.validateCommandRoles(command.getRoles(), event.getMember().getRoles())) {
+//        if (!ThreadUtils.validateCommandRoles(command.getRoles(), event.getMember().getRoles())) {
 //            eventHandler.onGuildRoleError(context);
 //            return;
 //        }
@@ -64,7 +64,7 @@ public class DiscordMessageParser {
 //        if (eventHandler.onPrivateMessageParsing(context, prefix)) {
 //            return;
 //        }
-//        ProcessedCommand result = Utils.parseCommand(event.getMessage().getContentRaw(), prefix.toString());
+//        ProcessedCommand result = ThreadUtils.parseCommand(event.getMessage().getContentRaw(), prefix.toString());
 //        if (result.parseResult == ResultEnum.ERROR) {
 //            return;
 //        }

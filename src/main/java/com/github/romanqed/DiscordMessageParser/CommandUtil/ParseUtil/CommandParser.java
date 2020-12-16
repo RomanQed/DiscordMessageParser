@@ -10,6 +10,10 @@ public class CommandParser {
         setPrefix(commandPrefix);
     }
 
+    public CommandParser() {
+        this(null);
+    }
+
     public void setPrefix(String commandPrefix) {
         this.commandPrefix = Objects.requireNonNullElse(commandPrefix, DEFAULT_COMMAND_PREFIX);
     }

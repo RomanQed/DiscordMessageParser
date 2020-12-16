@@ -1,54 +1,51 @@
 package com.github.romanqed.DiscordMessageParser.ContainerUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
-import java.util.Objects;
 
 public class ContainerCollection {
-    private final HashMap<String, Container> containers;
+    private final HashMap<Integer, Container> containers;
 
     public ContainerCollection() {
         containers = new HashMap<>();
     }
 
-    public Container getContainer(@NotNull String name) {
-        return Objects.requireNonNullElse(containers.get(name), new Container(name));
+    public Container getContainer(String name) {
+        return containers.get(name.hashCode());
     }
 
-    public ContainerCollection getContainersByTag(@NotNull String tag) {
+    public ContainerCollection getContainersByTag(String tag) {
         ContainerCollection result = new ContainerCollection();
         containers.values().forEach(container -> {
-            if (container.getTag().contentEquals(tag)) {
+            if (container.getTag().equals(tag)) {
                 result.putContainer(container);
             }
         });
         return result;
     }
 
-    public void putContainer(@NotNull Container container) {
+    public void putContainer(Container container) {
         if (container == null) {
             return;
         }
-        containers.put(container.getName(), container);
+        containers.put(container.getName().hashCode(), container);
     }
 
-    public void removeContainer(@NotNull String name) {
-        containers.remove(name);
+    public void removeContainer(String name) {
+        containers.remove(name.hashCode());
     }
 
-    public void removeContainer(@NotNull Container container) {
+    public void removeContainer(Container container) {
         if (container == null) {
             return;
         }
         removeContainer(container.getName());
     }
 
-    public boolean containsContainer(@NotNull String name) {
-        return containers.containsKey(name);
+    public boolean containsContainer(String name) {
+        return containers.containsKey(name.hashCode());
     }
 
-    public boolean containsContainer(@NotNull Container container) {
+    public boolean containsContainer(Container container) {
         if (container == null) {
             return false;
         }

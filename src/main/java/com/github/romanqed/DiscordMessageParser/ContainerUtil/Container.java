@@ -1,8 +1,5 @@
 package com.github.romanqed.DiscordMessageParser.ContainerUtil;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 
 public class Container {
@@ -10,17 +7,17 @@ public class Container {
     private Object value;
     private String tag;
 
-    public <T> Container(@NotNull String name, T value, @NotNull String tag) {
+    public <T> Container(String name, T value, String tag) {
         this.name = Objects.requireNonNullElse(name, "");
         this.value = value;
         this.tag = Objects.requireNonNullElse(tag, "");
     }
 
-    public <T> Container(@NotNull String name, @Nullable T value) {
+    public <T> Container(String name, T value) {
         this(name, value, "");
     }
 
-    public Container(@NotNull String name) {
+    public Container(String name) {
         this(name, null, "");
     }
 
@@ -28,12 +25,12 @@ public class Container {
         this("", null, "");
     }
 
-    public @NotNull String getName() {
+    public String getName() {
         return name;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> @Nullable T getValue() {
+    public <T> T getValue() {
         try {
             return (T) value;
         } catch (ClassCastException e) {
@@ -41,7 +38,7 @@ public class Container {
         }
     }
 
-    public <T> void setValue(@Nullable T value) {
+    public <T> void setValue(T value) {
         try {
             this.value = value;
         } catch (ClassCastException e) {
@@ -49,15 +46,15 @@ public class Container {
         }
     }
 
-    public @Nullable String getString() {
+    public String getString() {
         return getValue();
     }
 
-    public @Nullable Integer getInteger() {
+    public Integer getInteger() {
         return getValue();
     }
 
-    public @Nullable Integer parseInteger() {
+    public Integer parseInteger() {
         try {
             return Integer.parseInt(getValue());
         } catch (Exception e) {
@@ -65,11 +62,11 @@ public class Container {
         }
     }
 
-    public @Nullable Double getDouble() {
+    public Double getDouble() {
         return getValue();
     }
 
-    public @Nullable Double parseDouble() {
+    public Double parseDouble() {
         try {
             return Double.parseDouble(getValue());
         } catch (Exception e) {
@@ -77,11 +74,11 @@ public class Container {
         }
     }
 
-    public @Nullable Float getFloat() {
+    public Float getFloat() {
         return getValue();
     }
 
-    public @Nullable Float parseFloat() {
+    public Float parseFloat() {
         try {
             return Float.parseFloat(getValue());
         } catch (Exception e) {
@@ -89,11 +86,11 @@ public class Container {
         }
     }
 
-    public @Nullable Boolean getBoolean() {
+    public Boolean getBoolean() {
         return getValue();
     }
 
-    public @Nullable Boolean parseBoolean() {
+    public Boolean parseBoolean() {
         try {
             return Boolean.parseBoolean(getValue());
         } catch (Exception e) {
@@ -101,11 +98,11 @@ public class Container {
         }
     }
 
-    public @NotNull String getTag() {
+    public String getTag() {
         return tag;
     }
 
-    public void setTag(@NotNull String tag) {
+    public void setTag(String tag) {
         this.tag = Objects.requireNonNullElse(tag, "");
     }
 

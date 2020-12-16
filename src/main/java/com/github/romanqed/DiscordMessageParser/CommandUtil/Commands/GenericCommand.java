@@ -1,5 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Commands;
 
+import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
+
 import java.util.Objects;
 
 public abstract class GenericCommand {
@@ -16,6 +18,10 @@ public abstract class GenericCommand {
 
     public boolean equalToString(String obj) {
         return name.equals(obj);
+    }
+
+    public void execute(Context context) {
+        context.getJDAWrapper().reply(toString());
     }
 
     @Override

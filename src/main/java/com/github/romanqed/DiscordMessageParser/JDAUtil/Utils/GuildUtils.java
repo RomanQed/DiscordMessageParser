@@ -1,8 +1,7 @@
-package com.github.romanqed.DiscordMessageParser.JDAUtil;
+package com.github.romanqed.DiscordMessageParser.JDAUtil.Utils;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -11,39 +10,39 @@ import java.util.List;
 import java.util.Objects;
 
 public class GuildUtils {
-    public static boolean denyMemberToDo(@NotNull GuildChannel channel, @NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
+    public static boolean deny(GuildChannel channel, IPermissionHolder holder, Permission... permissions) {
         try {
-            return denyMemberToDo(List.of(channel), holder, permissions);
+            return deny(List.of(channel), holder, permissions);
         } catch (Exception e) {
             return false;
         }
     }
 
-    public static boolean allowMemberToDo(@NotNull GuildChannel channel, @NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
+    public static boolean allow(GuildChannel channel, IPermissionHolder holder, Permission... permissions) {
         try {
-            return allowMemberToDo(List.of(channel), holder, permissions);
+            return allow(List.of(channel), holder, permissions);
         } catch (Exception e) {
             return false;
         }
     }
 
-    public static boolean clearMemberPermission(@NotNull GuildChannel channel, @NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
+    public static boolean clearPermission(GuildChannel channel, IPermissionHolder holder, Permission... permissions) {
         try {
-            return clearMemberPermission(List.of(channel), holder, permissions);
+            return clearPermission(List.of(channel), holder, permissions);
         } catch (Exception e) {
             return false;
         }
     }
 
-    public static boolean resetMemberPermission(@NotNull GuildChannel channel, @NotNull IPermissionHolder holder) {
+    public static boolean resetPermission(GuildChannel channel, IPermissionHolder holder) {
         try {
-            return resetMemberPermission(List.of(channel), holder);
+            return resetPermission(List.of(channel), holder);
         } catch (Exception e) {
             return false;
         }
     }
 
-    public static boolean denyMemberToDo(@NotNull List<GuildChannel> channels, @NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
+    public static boolean deny(List<GuildChannel> channels, IPermissionHolder holder, Permission... permissions) {
         PermissionOverride permissionOverride;
         try {
             for (GuildChannel channel : channels) {
@@ -60,7 +59,7 @@ public class GuildUtils {
         }
     }
 
-    public static boolean allowMemberToDo(@NotNull List<GuildChannel> channels, @NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
+    public static boolean allow(List<GuildChannel> channels, IPermissionHolder holder, Permission... permissions) {
         PermissionOverride permissionOverride;
         try {
             for (GuildChannel channel : channels) {
@@ -77,7 +76,7 @@ public class GuildUtils {
         }
     }
 
-    public static boolean clearMemberPermission(@NotNull List<GuildChannel> channels, @NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
+    public static boolean clearPermission(List<GuildChannel> channels, IPermissionHolder holder, Permission... permissions) {
         PermissionOverride permissionOverride;
         try {
             for (GuildChannel channel : channels) {
@@ -95,7 +94,7 @@ public class GuildUtils {
         }
     }
 
-    public static boolean resetMemberPermission(@NotNull List<GuildChannel> channels, @NotNull IPermissionHolder holder) {
+    public static boolean resetPermission(List<GuildChannel> channels, IPermissionHolder holder) {
         PermissionOverride permissionOverride;
         try {
             for (GuildChannel channel : channels) {
@@ -110,7 +109,7 @@ public class GuildUtils {
         }
     }
 
-    public static Role createMuteRole(@NotNull Guild guild, @NotNull String muteRoleName) {
+    public static Role createMuteRole(Guild guild, String muteRoleName) {
         muteRoleName = Objects.requireNonNullElse(muteRoleName, "");
         if (muteRoleName.isEmpty()) {
             muteRoleName = "MuteRole";
@@ -118,14 +117,14 @@ public class GuildUtils {
         try {
             Role muteRole = guild.createRole().setName(muteRoleName).complete(true);
             muteRole.getManager().revokePermissions(Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION).queue();
-            denyMemberToDo(new ArrayList<>(guild.getTextChannels()), muteRole, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION);
+            deny(new ArrayList<>(guild.getTextChannels()), muteRole, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION);
             return muteRole;
         } catch (Exception e) {
             return null;
         }
     }
 
-    public static boolean clearTextChannel(@NotNull TextChannel channel) {
+    public static boolean clearTextChannel(TextChannel channel) {
         OffsetDateTime twoWeeksAgo = OffsetDateTime.now().minus(2, ChronoUnit.WEEKS);
         try {
             List<Message> messages = channel.getIterableHistory().complete();

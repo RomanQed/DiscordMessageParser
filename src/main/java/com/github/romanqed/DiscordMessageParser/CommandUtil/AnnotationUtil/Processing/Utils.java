@@ -2,6 +2,7 @@ package com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Proc
 
 import com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Annotations.Guild;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Annotations.Private;
+import com.github.romanqed.DiscordMessageParser.CommandUtil.CommandCollection;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.GenericCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.GuildCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.PrivateCommand;
@@ -13,6 +14,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Utils {
+
+    public static CommandCollection<GuildCommand> getGuildCommandCollection() {
+        return new CommandCollection<>(getGuildCommands());
+    }
+
+    public static CommandCollection<PrivateCommand> getPrivateCommandCollection() {
+        return new CommandCollection<>(getPrivateCommands());
+    }
+
     public static Set<PrivateCommand> getPrivateCommands() {
         try {
             return getAnnotatedCommands(PrivateCommand.class, Private.class);

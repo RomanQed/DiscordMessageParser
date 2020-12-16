@@ -6,18 +6,18 @@ public class DiscordMessageParser {
 //    private final ConcurrentHashMap<String, ContainerCollection> environmentList;
 //    private final EventCollection eventCollection;
 //
-//    public DiscordMessageParser(@NotNull CommandList commandList, @Nullable IParseEventHandler eventHandler) {
+//    public DiscordMessageParser( CommandList commandList,  IParseEventHandler eventHandler) {
 //        this.commandList = Objects.requireNonNullElse(commandList, new CommandList());
 //        this.eventHandler = Objects.requireNonNullElse(eventHandler, new DefaultEventHandler());
 //        environmentList = new ConcurrentHashMap<>();
 //        eventCollection = new EventCollection();
 //    }
 //
-//    public DiscordMessageParser(@NotNull CommandList commandList) {
+//    public DiscordMessageParser( CommandList commandList) {
 //        this(commandList, null);
 //    }
 
-//    public void processGuildMessage(@NotNull GuildMessageReceivedEvent event) {
+//    public void processGuildMessage( GuildMessageReceivedEvent event) {
 //        if (event == null || event.getAuthor().isBot()) {
 //            return;
 //        }
@@ -55,7 +55,7 @@ public class DiscordMessageParser {
 //        command.execute(new GuildCommandEvent(context, result.rawArguments), variableList);
 //    }
 //
-//    public void processPrivateMessage(@NotNull PrivateMessageReceivedEvent event) {
+//    public void processPrivateMessage( PrivateMessageReceivedEvent event) {
 //        if (event == null || event.getAuthor().isBot()) {
 //            return;
 //        }
@@ -77,7 +77,7 @@ public class DiscordMessageParser {
 //        command.execute(new PrivateCommandEvent(context, result.rawArguments));
 //    }
 //
-//    public void processGuildReaction(@NotNull GuildMessageReactionAddEvent event) {
+//    public void processGuildReaction( GuildMessageReactionAddEvent event) {
 //        if (event == null || event.getUser().isBot()) {
 //            return;
 //        }
@@ -89,7 +89,7 @@ public class DiscordMessageParser {
 //        eventCollection.execute(id, event.getUser());
 //    }
 //
-//    public void processPrivateReaction(@NotNull PrivateMessageReactionAddEvent event) {
+//    public void processPrivateReaction( PrivateMessageReactionAddEvent event) {
 //        if (event == null || event.getUser() == null || event.getUser().isBot()) {
 //            return;
 //        }
@@ -101,14 +101,14 @@ public class DiscordMessageParser {
 //        eventCollection.execute(id, event.getUser());
 //    }
 //
-//    public void processGuildMessageDelete(@NotNull GuildMessageDeleteEvent event) {
+//    public void processGuildMessageDelete( GuildMessageDeleteEvent event) {
 //        if (event == null) {
 //            return;
 //        }
 //        eventCollection.remove(event.getMessageId());
 //    }
 //
-//    public void processPrivateMessageDelete(@NotNull PrivateMessageDeleteEvent event) {
+//    public void processPrivateMessageDelete( PrivateMessageDeleteEvent event) {
 //        if (event == null) {
 //            return;
 //        }

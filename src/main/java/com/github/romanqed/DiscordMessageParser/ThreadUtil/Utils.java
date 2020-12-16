@@ -1,7 +1,5 @@
 package com.github.romanqed.DiscordMessageParser.ThreadUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
 
 public class Utils {
@@ -10,15 +8,15 @@ public class Utils {
     public static final long EXTENDED_FREEZE_TIME = 600000;
     public static final long MAX_FREEZE_TIME = 1800000;
 
-    public static void unSafetyCollectExecutors(@NotNull Collection<QueueExecutor> collection, long freezingTime) {
+    public static void unSafetyCollectExecutors(Collection<QueueExecutor> collection, long freezingTime) {
         collectExecutors(collection, freezingTime, false);
     }
 
-    public static void safetyCollectExecutors(@NotNull Collection<QueueExecutor> collection, long freezingTime) {
+    public static void safetyCollectExecutors(Collection<QueueExecutor> collection, long freezingTime) {
         collectExecutors(collection, freezingTime, true);
     }
 
-    public static void collectExecutors(@NotNull Collection<QueueExecutor> collection, long freezingTime, boolean needToWaitEmptyQueue) {
+    public static void collectExecutors(Collection<QueueExecutor> collection, long freezingTime, boolean needToWaitEmptyQueue) {
         if (collection == null) {
             return;
         }

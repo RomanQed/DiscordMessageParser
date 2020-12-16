@@ -1,81 +1,27 @@
 package com.github.romanqed.DiscordMessageParser.ReactionUtil;
 
-import com.github.romanqed.DiscordMessageParser.JDAUtil.Checks;
 import net.dv8tion.jda.api.entities.User;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-import java.util.function.Consumer;
+public interface EmojiEvent {
+    long getId();
 
-public class EmojiEvent {
-    private final String unicodeId;
-    private final long finalTime;
-    private final Consumer<User> action;
-    private String messageId;
-    private String channelId;
+    long getMessageId();
 
-    // TODO сделать количество нажатий
-    public EmojiEvent(@Nullable String unicodeId, int lifeTime, @Nullable Consumer<User> action) {
-        this.unicodeId = Objects.requireNonNullElse(unicodeId, "\uD83D\uDE00");
-        this.finalTime = System.currentTimeMillis() + lifeTime;
-        this.action = Objects.requireNonNullElse(action, user -> {
-        });
-    }
+    void setMessageId(long messageId);
 
-    public EmojiEvent(int lifeTime, @Nullable Consumer<User> action) {
-        this(null, lifeTime, action);
-    }
+    long getChannelId();
 
-    public EmojiEvent(int lifeTime) {
-        this(null, lifeTime, null);
-    }
+    void setChannelId(long channelIdId);
 
-    public @NotNull String getChannelId() {
-        return channelId;
-    }
+    String getEmoji();
 
-    public void setChannelId(@NotNull String channelId) throws IllegalArgumentException {
-        if (Checks.isId(channelId)) {
-            this.channelId = channelId;
-        } else {
-            throw new IllegalArgumentException("Invalid id!");
-        }
-    }
+    void setEmoji(String emoji);
 
-    public void call(User user) {
-        try {
-            action.accept(user);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-    }
+    void call(User sender);
 
-    public @NotNull String getMessageId() {
-        return messageId;
-    }
+    int getRemainingLifeTime();
 
-    public void setMessageId(@NotNull String messageId) throws IllegalArgumentException {
-        if (Checks.isId(messageId)) {
-            this.messageId = messageId;
-        } else {
-            throw new IllegalArgumentException("Invalid id!");
-        }
-    }
+    int getRemainingCalls();
 
-    public int getRemainingLifeTime() {
-        long result = finalTime - System.currentTimeMillis();
-        if (result < 0) {
-            return 0;
-        }
-        return (int) result;
-    }
-
-    public @NotNull String getId() {
-        return channelId + messageId + unicodeId;
-    }
-
-    public @NotNull String getUnicodeId() {
-        return unicodeId;
-    }
+    boolean isFinished();
 }

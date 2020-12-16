@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.JDAUtil;
+package com.github.romanqed.DiscordMessageParser.JDAUtil.Utils;
 
 public class Constants {
     public static final int MAX_DEL_DAYS = 7;

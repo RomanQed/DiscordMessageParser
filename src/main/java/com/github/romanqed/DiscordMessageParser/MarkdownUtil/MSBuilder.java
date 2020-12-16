@@ -1,7 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.MarkdownUtil;
 
 import net.dv8tion.jda.api.utils.MarkdownUtil;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public class MSBuilder {
         this(rawString, "", formatting);
     }
 
-    public MSBuilder(@NotNull String rawString, @NotNull String syntax, TextFormatting... formatting) {
+    public MSBuilder(String rawString, String syntax, TextFormatting... formatting) {
         this.rawString = Objects.requireNonNullElse(rawString, "");
         this.formatting = new ArrayList<>(Set.of(formatting));
         setSyntax(syntax);
@@ -27,31 +26,31 @@ public class MSBuilder {
         isSpoiler = false;
     }
 
-    public @NotNull MSBuilder setBold() {
+    public MSBuilder setBold() {
         if (!formatting.contains(TextFormatting.BOLD))
             formatting.add(TextFormatting.BOLD);
         return this;
     }
 
-    public @NotNull MSBuilder setItalic() {
+    public MSBuilder setItalic() {
         if (!formatting.contains(TextFormatting.ITALIC))
             formatting.add(TextFormatting.ITALIC);
         return this;
     }
 
-    public @NotNull MSBuilder setStrikeThrough() {
+    public MSBuilder setStrikeThrough() {
         if (!formatting.contains(TextFormatting.STRIKETHROUGH))
             formatting.add(TextFormatting.STRIKETHROUGH);
         return this;
     }
 
-    public @NotNull MSBuilder setUnderlined() {
+    public MSBuilder setUnderlined() {
         if (!formatting.contains(TextFormatting.UNDERLINED))
             formatting.add(TextFormatting.UNDERLINED);
         return this;
     }
 
-    public @NotNull MSBuilder setSingleLine() {
+    public MSBuilder setSingleLine() {
         formatting.remove(TextFormatting.MULTILINE);
         if (!formatting.contains(TextFormatting.SINGLE_LINE))
             formatting.add(TextFormatting.SINGLE_LINE);
@@ -59,14 +58,14 @@ public class MSBuilder {
         return this;
     }
 
-    public @NotNull MSBuilder setMultiLine() {
+    public MSBuilder setMultiLine() {
         formatting.remove(TextFormatting.SINGLE_LINE);
         if (!formatting.contains(TextFormatting.MULTILINE))
             formatting.add(TextFormatting.MULTILINE);
         return this;
     }
 
-    public @NotNull MSBuilder setSyntax(@NotNull String syntax) {
+    public MSBuilder setSyntax(String syntax) {
         if (syntax != null && !rawString.isEmpty() && !syntax.isEmpty()) {
             setMultiLine();
             this.syntax = syntax;

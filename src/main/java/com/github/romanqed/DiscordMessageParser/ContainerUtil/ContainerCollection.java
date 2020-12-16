@@ -1,12 +1,13 @@
 package com.github.romanqed.DiscordMessageParser.ContainerUtil;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ContainerCollection {
-    private final HashMap<Integer, Container> containers;
+    private final Map<Integer, Container> containers;
 
     public ContainerCollection() {
-        containers = new HashMap<>();
+        containers = new ConcurrentHashMap<>();
     }
 
     public Container getContainer(String name) {

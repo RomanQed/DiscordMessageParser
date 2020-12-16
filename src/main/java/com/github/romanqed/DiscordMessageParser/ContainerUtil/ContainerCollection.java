@@ -6,60 +6,60 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class ContainerCollection {
-    private final HashMap<String, Container> variables;
+    private final HashMap<String, Container> containers;
 
     public ContainerCollection() {
-        variables = new HashMap<>();
+        containers = new HashMap<>();
     }
 
-    public Container getVariable(@NotNull String name) {
-        return Objects.requireNonNullElse(variables.get(name), new Container(name));
+    public Container getContainer(@NotNull String name) {
+        return Objects.requireNonNullElse(containers.get(name), new Container(name));
     }
 
-    public ContainerCollection getVariablesByTag(@NotNull String tag) {
+    public ContainerCollection getContainersByTag(@NotNull String tag) {
         ContainerCollection result = new ContainerCollection();
-        variables.values().forEach(container -> {
+        containers.values().forEach(container -> {
             if (container.getTag().contentEquals(tag)) {
-                result.putVariable(container);
+                result.putContainer(container);
             }
         });
         return result;
     }
 
-    public void putVariable(@NotNull Container container) {
+    public void putContainer(@NotNull Container container) {
         if (container == null) {
             return;
         }
-        variables.put(container.getName(), container);
+        containers.put(container.getName(), container);
     }
 
-    public void removeVariable(@NotNull String name) {
-        variables.remove(name);
+    public void removeContainer(@NotNull String name) {
+        containers.remove(name);
     }
 
-    public void removeVariable(@NotNull Container container) {
+    public void removeContainer(@NotNull Container container) {
         if (container == null) {
             return;
         }
-        removeVariable(container.getName());
+        removeContainer(container.getName());
     }
 
-    public boolean containsVariable(@NotNull String name) {
-        return variables.containsKey(name);
+    public boolean containsContainer(@NotNull String name) {
+        return containers.containsKey(name);
     }
 
-    public boolean containsVariable(@NotNull Container container) {
+    public boolean containsContainer(@NotNull Container container) {
         if (container == null) {
             return false;
         }
-        return containsVariable(container.getName());
+        return containsContainer(container.getName());
     }
 
     public boolean isEmpty() {
-        return variables.isEmpty();
+        return containers.isEmpty();
     }
 
     public int size() {
-        return variables.size();
+        return containers.size();
     }
 }

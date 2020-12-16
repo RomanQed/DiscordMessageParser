@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message;
+package Legacy.Message;
 
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import net.dv8tion.jda.api.entities.Member;

@@ -1,70 +1,16 @@
 package com.github.romanqed.DiscordMessageParser.JDAUtil;
 
-import com.github.romanqed.DiscordMessageParser.RegexUtil.ArgumentPattern;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
-public class JDAUtils {
-    public static final int MAX_DEL_DAYS = 7;
-    public static final int MIN_DEL_DAYS = 0;
-
-    public static @NotNull String parseUserMention(@NotNull String userMention) {
-        userMention = Objects.requireNonNullElse(userMention, "");
-        return userMention.replace("!", "").replace("<@", "").replace(">", "");
-    }
-
-    public static @Nullable Guild.Ban getUserBanByUserTag(@NotNull List<Guild.Ban> banList, @NotNull String userTag) {
-        if (banList == null) {
-            return null;
-        }
-        Optional<Guild.Ban> ban = banList.stream().findFirst().filter(predicate -> {
-            return predicate.getUser().getAsTag().contentEquals(userTag);
-        });
-        try {
-            return ban.get();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public static boolean isId(@NotNull String id) {
-        try {
-            return ArgumentPattern.ID.getPattern().matcher(id).matches();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static boolean isUserMention(@NotNull String userMention) {
-        try {
-            return ArgumentPattern.USER_MENTION.getPattern().matcher(userMention).matches();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static boolean isUserTag(@NotNull String rawUserName) {
-        rawUserName = Objects.requireNonNullElse(rawUserName, "");
-        return ArgumentPattern.USER_TAG.getPattern().matcher(rawUserName).matches();
-    }
-
-    public static boolean isEmptyPermissionOverride(@NotNull PermissionOverride permissionOverride) {
-        try {
-            return permissionOverride.getDeniedRaw() == 0 && permissionOverride.getAllowedRaw() == 0;
-        } catch (Exception e) {
-            return true;
-        }
-    }
-
+public class GuildUtils {
     public static boolean denyMemberToDo(@NotNull GuildChannel channel, @NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
         try {
             return denyMemberToDo(List.of(channel), holder, permissions);
@@ -138,7 +84,7 @@ public class JDAUtils {
                 permissionOverride = channel.getPermissionOverride(holder);
                 if (permissionOverride != null) {
                     permissionOverride.getManager().clear(permissions).queue();
-                    if (JDAUtils.isEmptyPermissionOverride(permissionOverride)) {
+                    if (Checks.isEmptyPermissionOverride(permissionOverride)) {
                         permissionOverride.delete().queue();
                     }
                 }
@@ -183,9 +129,7 @@ public class JDAUtils {
         OffsetDateTime twoWeeksAgo = OffsetDateTime.now().minus(2, ChronoUnit.WEEKS);
         try {
             List<Message> messages = channel.getIterableHistory().complete();
-            messages.removeIf(item -> {
-                return item.getTimeCreated().isBefore(twoWeeksAgo);
-            });
+            messages.removeIf(item -> item.getTimeCreated().isBefore(twoWeeksAgo));
             channel.deleteMessages(messages).queue();
             return true;
         } catch (Exception e) {

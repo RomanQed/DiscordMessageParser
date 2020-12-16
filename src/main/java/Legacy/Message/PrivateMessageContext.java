@@ -1,23 +1,23 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message;
+package Legacy.Message;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base.GuildContext;
-import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
+import Legacy.Base.JDAContext;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GuildMessageContext extends GuildContext {
-    protected final TextChannel channel;
+public class PrivateMessageContext extends JDAContext {
+    protected final PrivateChannel channel;
 
-    public GuildMessageContext(TextChannel channel, EventCollection eventCollection) {
-        super(channel.getGuild(), eventCollection);
+    public PrivateMessageContext(PrivateChannel channel, EventCollection eventCollection) {
+        super(channel.getJDA(), eventCollection);
         this.channel = channel;
     }
 
-    public TextChannel getChannel() {
+    public PrivateChannel getChannel() {
         return channel;
     }
 
@@ -26,7 +26,13 @@ public class GuildMessageContext extends GuildContext {
     }
 
     public Message sendMessage(@NotNull String rawMessage, @Nullable EmojiEvent emojiEvent) {
-        return sendMessage(channel, rawMessage, emojiEvent);
+        Message message;
+        try {
+            message = new MessageBuilder(rawMessage).build();
+        } catch (Exception e) {
+            return null;
+        }
+        return sendMessage(message, emojiEvent);
     }
 
     public Message sendMessage(@NotNull Message message) {
@@ -35,9 +41,5 @@ public class GuildMessageContext extends GuildContext {
 
     public Message sendMessage(@NotNull String rawMessage) {
         return sendMessage(rawMessage, null);
-    }
-
-    public boolean clearThisTextChannel() {
-        return JDAUtils.clearTextChannel(channel);
     }
 }

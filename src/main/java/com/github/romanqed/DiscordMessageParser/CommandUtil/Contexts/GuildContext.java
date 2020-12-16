@@ -1,9 +1,11 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base;
+package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts;
 
-import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
-import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
+import com.github.romanqed.DiscordMessageParser.ContainerUtil.ContainerCollection;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.Checks;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.Constants;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.GuildUtils;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.Processing;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import org.jetbrains.annotations.NotNull;
@@ -13,45 +15,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class GuildContext extends GenericContext {
-    private final Guild guild;
+public class GuildContext extends DefaultContext {
+    private final ContainerCollection containers;
 
-    public GuildContext(Guild guild, EventCollection eventCollection) {
-        super(eventCollection);
-        this.guild = guild;
+    public GuildContext(Message body, String arguments, EventCollection events, ContainerCollection containers) {
+        super(body, arguments, events);
+        this.containers = containers;
     }
 
-    public @NotNull Guild getGuild() {
-        return guild;
+    public GuildContext(Message body, String arguments, EventCollection events) {
+        this(body, arguments, events, null);
     }
 
-    public @NotNull String getGuildId() {
-        return guild.getId();
+    public GuildContext(Message body, String arguments) {
+        this(body, arguments, null, null);
     }
 
-    public Message sendMessage(@NotNull String channelId, @NotNull Message message, @Nullable EmojiEvent emojiEvent) {
-        TextChannel channel;
-        try {
-            channel = guild.getTextChannelById(channelId);
-            return sendMessage(channel, message, emojiEvent);
-        } catch (Exception e) {
-            return null;
-        }
+    public ContainerCollection getGuildContainers() {
+        return containers;
     }
 
-    public Message sendMessage(@NotNull String channelId, @NotNull String rawMessage, @Nullable EmojiEvent emojiEvent) {
-        Message message;
-        try {
-            message = new MessageBuilder(rawMessage).build();
-        } catch (Exception e) {
-            return null;
-        }
-        return sendMessage(channelId, message, emojiEvent);
+    public TextChannel getTextChannel() {
+        return body.getTextChannel();
+    }
+
+    public void clearTextChannel() {
+        GuildUtils.clearTextChannel(body.getTextChannel());
     }
 
     public @Nullable List<Guild.Ban> getGuildBanList() {
         try {
-            return guild.retrieveBanList().complete();
+            return body.getGuild().retrieveBanList().complete();
         } catch (Exception e) {
             return null;
         }
@@ -59,7 +53,7 @@ public class GuildContext extends GenericContext {
 
     public @Nullable Member getMemberById(long memberId) {
         try {
-            return guild.retrieveMemberById(memberId).complete();
+            return body.getGuild().retrieveMemberById(memberId).complete();
         } catch (Exception e) {
             return null;
         }
@@ -74,12 +68,12 @@ public class GuildContext extends GenericContext {
     }
 
     public @Nullable Member getMemberByMention(@NotNull String memberMention) {
-        return getMemberById(JDAUtils.parseUserMention(memberMention));
+        return getMemberById(Processing.parseUserMention(memberMention));
     }
 
     public @Nullable User getBannedUserById(long userId) {
         try {
-            return guild.retrieveBanById(userId).complete().getUser();
+            return body.getGuild().retrieveBanById(userId).complete().getUser();
         } catch (Exception e) {
             return null;
         }
@@ -87,16 +81,16 @@ public class GuildContext extends GenericContext {
 
     public @Nullable User getBannedUserById(@NotNull String userId) {
         try {
-            return guild.retrieveBanById(userId).complete().getUser();
+            return body.getGuild().retrieveBanById(userId).complete().getUser();
         } catch (Exception e) {
             return null;
         }
     }
 
     public @Nullable User getBannedUserByTag(@NotNull String tag) {
-        if (JDAUtils.isUserTag(tag)) {
+        if (Checks.isUserTag(tag)) {
             try {
-                return JDAUtils.getUserBanByUserTag(getGuildBanList(), tag).getUser();
+                return Processing.getUserBanByUserTag(getGuildBanList(), tag).getUser();
             } catch (Exception e) {
                 return null;
             }
@@ -107,19 +101,19 @@ public class GuildContext extends GenericContext {
     public boolean clearTextChannel(@NotNull String channelId) {
         TextChannel channel;
         try {
-            channel = guild.getTextChannelById(channelId);
+            channel = body.getGuild().getTextChannelById(channelId);
         } catch (Exception e) {
             return false;
         }
         if (channel != null) {
-            return JDAUtils.clearTextChannel(channel);
+            return GuildUtils.clearTextChannel(channel);
         }
         return false;
     }
 
     public void banMember(@NotNull Member member, int delDays, @Nullable String reason, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         try {
-            guild.ban(member.getUser(), delDays, reason).queue(success, failure);
+            body.getGuild().ban(member.getUser(), delDays, reason).queue(success, failure);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -132,11 +126,11 @@ public class GuildContext extends GenericContext {
     }
 
     public void banMember(@NotNull Member member, @Nullable String reason, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
-        banMember(member, JDAUtils.MAX_DEL_DAYS, reason, success, failure);
+        banMember(member, Constants.MAX_DEL_DAYS, reason, success, failure);
     }
 
     public void banMember(@NotNull Member member, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
-        banMember(member, JDAUtils.MAX_DEL_DAYS, null, success, failure);
+        banMember(member, Constants.MAX_DEL_DAYS, null, success, failure);
     }
 
     public void banMember(@NotNull Member member, int delDays, @Nullable String reason) {
@@ -148,16 +142,16 @@ public class GuildContext extends GenericContext {
     }
 
     public void banMember(@NotNull Member member, @Nullable String reason) {
-        banMember(member, JDAUtils.MAX_DEL_DAYS, reason);
+        banMember(member, Constants.MAX_DEL_DAYS, reason);
     }
 
     public void banMember(@NotNull Member member) {
-        banMember(member, JDAUtils.MAX_DEL_DAYS, null);
+        banMember(member, Constants.MAX_DEL_DAYS, null);
     }
 
     public void unBanUser(@NotNull User user, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         try {
-            guild.unban(user).queue(success, failure);
+            body.getGuild().unban(user).queue(success, failure);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -169,9 +163,13 @@ public class GuildContext extends GenericContext {
         unBanUser(user, null, null);
     }
 
-    public void kickMember(@NotNull Member member, @NotNull String reason, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
+    public void unBanUser(@NotNull String tag, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
+        unBanUser(getBannedUserByTag(tag), success, failure);
+    }
+
+    public void kickMember(@NotNull Member member, @Nullable String reason, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         try {
-            guild.kick(member, reason).queue(success, failure);
+            body.getGuild().kick(member, reason).queue(success, failure);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -183,7 +181,7 @@ public class GuildContext extends GenericContext {
         kickMember(member, null, success, failure);
     }
 
-    public void kickMember(@NotNull Member member, @NotNull String reason) {
+    public void kickMember(@NotNull Member member, @Nullable String reason) {
         kickMember(member, reason, null, null);
     }
 
@@ -193,7 +191,7 @@ public class GuildContext extends GenericContext {
 
     public void voiceMuteMember(@NotNull Member member, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         try {
-            guild.mute(member, true).queue(success, failure);
+            body.getGuild().mute(member, true).queue(success, failure);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -207,7 +205,7 @@ public class GuildContext extends GenericContext {
 
     public void voiceUnMuteMember(@NotNull Member member, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         try {
-            guild.mute(member, false).queue(success, failure);
+            body.getGuild().mute(member, false).queue(success, failure);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -221,7 +219,7 @@ public class GuildContext extends GenericContext {
 
     public void muteMember(@NotNull Member member, @NotNull Role muteRole, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         try {
-            guild.addRoleToMember(member, muteRole).queue(success, failure);
+            body.getGuild().addRoleToMember(member, muteRole).queue(success, failure);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -232,7 +230,7 @@ public class GuildContext extends GenericContext {
     public void muteMember(@NotNull Member member, @NotNull String roleId, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         Role muteRole;
         try {
-            muteRole = guild.getRoleById(roleId);
+            muteRole = body.getGuild().getRoleById(roleId);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -254,7 +252,7 @@ public class GuildContext extends GenericContext {
 
     public void unMuteMember(@NotNull Member member, @NotNull Role muteRole, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         try {
-            guild.removeRoleFromMember(member, muteRole).queue(success, failure);
+            body.getGuild().removeRoleFromMember(member, muteRole).queue(success, failure);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -265,7 +263,7 @@ public class GuildContext extends GenericContext {
     public void unMuteMember(@NotNull Member member, @NotNull String roleId, @Nullable Consumer<Void> success, @Nullable Consumer<? super Throwable> failure) {
         Role muteRole;
         try {
-            muteRole = guild.getRoleById(roleId);
+            muteRole = body.getGuild().getRoleById(roleId);
         } catch (Exception e) {
             if (failure != null) {
                 failure.accept(e);
@@ -286,39 +284,39 @@ public class GuildContext extends GenericContext {
     }
 
     public boolean denyMemberToDoInTextChannels(@NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
-        return JDAUtils.denyMemberToDo(new ArrayList<>(guild.getTextChannels()), holder, permissions);
+        return GuildUtils.denyMemberToDo(new ArrayList<>(body.getGuild().getTextChannels()), holder, permissions);
     }
 
     public boolean allowMemberToDoInTextChannels(@NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
-        return JDAUtils.allowMemberToDo(new ArrayList<>(guild.getTextChannels()), holder, permissions);
+        return GuildUtils.allowMemberToDo(new ArrayList<>(body.getGuild().getTextChannels()), holder, permissions);
     }
 
     public boolean clearMemberPermissionInTextChannels(@NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
-        return JDAUtils.clearMemberPermission(new ArrayList<>(guild.getTextChannels()), holder, permissions);
+        return GuildUtils.clearMemberPermission(new ArrayList<>(body.getGuild().getTextChannels()), holder, permissions);
     }
 
     public boolean resetMemberPermissionInTextChannels(@NotNull IPermissionHolder holder) {
-        return JDAUtils.resetMemberPermission(new ArrayList<>(guild.getTextChannels()), holder);
+        return GuildUtils.resetMemberPermission(new ArrayList<>(body.getGuild().getTextChannels()), holder);
     }
 
     public boolean denyMemberToDoInVoiceChannels(@NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
-        return JDAUtils.denyMemberToDo(new ArrayList<>(guild.getVoiceChannels()), holder, permissions);
+        return GuildUtils.denyMemberToDo(new ArrayList<>(body.getGuild().getVoiceChannels()), holder, permissions);
     }
 
     public boolean allowMemberToDoInVoiceChannels(@NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
-        return JDAUtils.allowMemberToDo(new ArrayList<>(guild.getVoiceChannels()), holder, permissions);
+        return GuildUtils.allowMemberToDo(new ArrayList<>(body.getGuild().getVoiceChannels()), holder, permissions);
     }
 
     public boolean clearMemberPermissionInVoiceChannels(@NotNull IPermissionHolder holder, @NotNull Permission... permissions) {
-        return JDAUtils.clearMemberPermission(new ArrayList<>(guild.getVoiceChannels()), holder, permissions);
+        return GuildUtils.clearMemberPermission(new ArrayList<>(body.getGuild().getVoiceChannels()), holder, permissions);
     }
 
     public boolean resetMemberPermissionInVoiceChannels(@NotNull IPermissionHolder holder) {
-        return JDAUtils.resetMemberPermission(new ArrayList<>(guild.getVoiceChannels()), holder);
+        return GuildUtils.resetMemberPermission(new ArrayList<>(body.getGuild().getVoiceChannels()), holder);
     }
 
     public boolean resetMemberPermissionOnGuild(@NotNull IPermissionHolder holder) {
-        return JDAUtils.resetMemberPermission(guild.getChannels(), holder);
+        return GuildUtils.resetMemberPermission(body.getGuild().getChannels(), holder);
     }
 
     public boolean denyReadMessage(@NotNull IPermissionHolder holder) {

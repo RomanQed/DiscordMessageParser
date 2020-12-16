@@ -1,7 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.EventUtil;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message.GuildReceivedContext;
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message.PrivateReceivedContext;
+import Legacy.Message.GuildReceivedContext;
+import Legacy.Message.PrivateReceivedContext;
 
 public interface IParseEventHandler {
     default boolean onPrivateMessageParsing(PrivateReceivedContext context, StringBuilder prefix) {

@@ -1,23 +1,23 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message;
+package Legacy.Message;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base.JDAContext;
+import Legacy.Base.GuildContext;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.GuildUtils;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PrivateMessageContext extends JDAContext {
-    protected final PrivateChannel channel;
+public class GuildMessageContext extends GuildContext {
+    protected final TextChannel channel;
 
-    public PrivateMessageContext(PrivateChannel channel, EventCollection eventCollection) {
-        super(channel.getJDA(), eventCollection);
+    public GuildMessageContext(TextChannel channel, EventCollection eventCollection) {
+        super(channel.getGuild(), eventCollection);
         this.channel = channel;
     }
 
-    public PrivateChannel getChannel() {
+    public TextChannel getChannel() {
         return channel;
     }
 
@@ -26,13 +26,7 @@ public class PrivateMessageContext extends JDAContext {
     }
 
     public Message sendMessage(@NotNull String rawMessage, @Nullable EmojiEvent emojiEvent) {
-        Message message;
-        try {
-            message = new MessageBuilder(rawMessage).build();
-        } catch (Exception e) {
-            return null;
-        }
-        return sendMessage(message, emojiEvent);
+        return sendMessage(channel, rawMessage, emojiEvent);
     }
 
     public Message sendMessage(@NotNull Message message) {
@@ -41,5 +35,9 @@ public class PrivateMessageContext extends JDAContext {
 
     public Message sendMessage(@NotNull String rawMessage) {
         return sendMessage(rawMessage, null);
+    }
+
+    public boolean clearThisTextChannel() {
+        return GuildUtils.clearTextChannel(channel);
     }
 }

@@ -1,6 +1,6 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Base;
+package Legacy.Base;
 
-import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.Processing;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
@@ -32,7 +32,7 @@ public class JDAContext extends GenericContext {
 
     public @Nullable User getUserByMention(String userMention) {
         try {
-            return jda.retrieveUserById(JDAUtils.parseUserMention(userMention)).complete();
+            return jda.retrieveUserById(Processing.parseUserMention(userMention)).complete();
         } catch (Exception e) {
             return null;
         }

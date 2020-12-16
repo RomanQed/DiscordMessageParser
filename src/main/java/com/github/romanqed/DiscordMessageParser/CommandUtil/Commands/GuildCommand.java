@@ -1,6 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Commands;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message.GuildReceivedContext;
+import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.GuildContext;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -83,7 +83,7 @@ public class GuildCommand extends GenericCommand {
         return canBeExecutedWithRoles(member.getRoles()) && member.hasPermission(permissions);
     }
 
-    public void execute(GuildReceivedContext context) {
+    public void execute(GuildContext context) {
         context.sendMessage(toString());
     }
 

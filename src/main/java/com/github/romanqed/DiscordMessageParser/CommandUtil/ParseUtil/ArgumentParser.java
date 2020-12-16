@@ -35,9 +35,6 @@ public class ArgumentParser {
 
     public List<String> parseArguments(ArgumentPattern... patterns) {
         List<String> arguments = getCommandArguments();
-        if (isEmpty()) {
-            return arguments;
-        }
         if (patterns != null && patterns.length != 0) {
             ArgumentPatternList patternList = new ArgumentPatternList(patterns);
             if (!patternList.processArgumentList(arguments)) {

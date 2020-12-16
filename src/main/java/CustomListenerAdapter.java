@@ -1,4 +1,7 @@
 import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.CommandParser;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -18,6 +21,9 @@ public class CustomListenerAdapter extends ListenerAdapter {
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         //System.out.println(event.getMember());
+        User user;
+        Member member;
+        Message message;
     }
 
     @Override

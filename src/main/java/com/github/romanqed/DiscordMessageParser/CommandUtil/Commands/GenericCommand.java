@@ -2,7 +2,7 @@ package com.github.romanqed.DiscordMessageParser.CommandUtil.Commands;
 
 import java.util.Objects;
 
-public class GenericCommand {
+public abstract class GenericCommand {
     public static final String DEFAULT_COMMAND_NAME = "command";
     protected final String name;
 

@@ -1,6 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Commands;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Message.PrivateReceivedContext;
+import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.DefaultContext;
 
 public class PrivateCommand extends GenericCommand {
     public PrivateCommand(String name) {
@@ -11,7 +11,7 @@ public class PrivateCommand extends GenericCommand {
         super(null);
     }
 
-    public void execute(PrivateReceivedContext context) {
+    public void execute(DefaultContext context) {
         context.sendMessage(toString());
     }
 

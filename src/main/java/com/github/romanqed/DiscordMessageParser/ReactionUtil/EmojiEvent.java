@@ -1,6 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.ReactionUtil;
 
-import com.github.romanqed.DiscordMessageParser.JDAUtil.JDAUtils;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.Checks;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +36,7 @@ public class EmojiEvent {
     }
 
     public void setChannelId(@NotNull String channelId) throws IllegalArgumentException {
-        if (JDAUtils.isId(channelId)) {
+        if (Checks.isId(channelId)) {
             this.channelId = channelId;
         } else {
             throw new IllegalArgumentException("Invalid id!");
@@ -56,7 +56,7 @@ public class EmojiEvent {
     }
 
     public void setMessageId(@NotNull String messageId) throws IllegalArgumentException {
-        if (JDAUtils.isId(messageId)) {
+        if (Checks.isId(messageId)) {
             this.messageId = messageId;
         } else {
             throw new IllegalArgumentException("Invalid id!");

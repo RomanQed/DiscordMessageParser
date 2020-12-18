@@ -102,7 +102,11 @@ public class LinkedEmojiEvent implements EmojiEvent {
 
     @Override
     public void finalEvent() {
-        byEnd.run();
+        try {
+            byEnd.run();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.Private;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Processing.Utils;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.CommandCollection;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.PrivateCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.ContextImpl;
@@ -11,18 +10,24 @@ import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.Me
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.MessageProcessor;
 import net.dv8tion.jda.api.entities.Message;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 
 public class PrivateMessageProcessor extends MessageProcessor {
-    private static final CommandCollection<PrivateCommand> commands = Utils.getPrivateCommandCollection();
+    private final CommandCollection<PrivateCommand> commands;
 
-    public PrivateMessageProcessor(ExecutorService service, MessageParseHandler handler) {
+    public PrivateMessageProcessor(CommandCollection<PrivateCommand> commands, ExecutorService service, MessageParseHandler handler) {
         super(service, handler);
+        this.commands = Objects.requireNonNullElse(commands, new CommandCollection<>());
         containers.put(0L, new ContainerCollection());
     }
 
+    public PrivateMessageProcessor(CommandCollection<PrivateCommand> commands, MessageParseHandler handler) {
+        this(commands, null, handler);
+    }
+
     public PrivateMessageProcessor(MessageParseHandler handler) {
-        this(null, handler);
+        this(null, null, handler);
     }
 
     public void processMessage(Message message) {

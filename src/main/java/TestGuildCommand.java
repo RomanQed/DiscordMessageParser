@@ -1,4 +1,4 @@
-import com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Annotations.Guild;
+import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.Guild;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.GuildCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.Utils.MessageUtils;
@@ -15,8 +15,11 @@ public class TestGuildCommand extends GuildCommand {
     @Override
     public void execute(Context context) {
         Message sentMessage = context.getJDAWrapper().sendMessage("test");
-        EmojiEvent event = Events.newEvent(user -> {
+        EmojiEvent event = Events.callsLimitEvent(5, user -> {
             sentMessage.editMessage(user.toString()).queue();
+        });
+        event.atFinal(() -> {
+            sentMessage.editMessage("Я повесился!").queue();
         });
         MessageUtils.addEventToSentMessage(event, sentMessage);
     }

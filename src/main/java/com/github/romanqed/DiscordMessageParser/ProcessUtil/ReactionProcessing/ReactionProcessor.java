@@ -12,9 +12,9 @@ public abstract class ReactionProcessor {
     protected final EventCollection events;
     protected final ExecutorService service;
 
-    protected ReactionProcessor(ExecutorService service, EventCollection events) {
-        this.service = Objects.requireNonNullElse(service, Executors.newCachedThreadPool());
+    protected ReactionProcessor(EventCollection events, ExecutorService service) {
         this.events = Objects.requireNonNullElse(events, new EventCollection());
+        this.service = Objects.requireNonNullElse(service, Executors.newCachedThreadPool());
     }
 
     public EmojiEvent processReaction(MessageReaction reaction) {

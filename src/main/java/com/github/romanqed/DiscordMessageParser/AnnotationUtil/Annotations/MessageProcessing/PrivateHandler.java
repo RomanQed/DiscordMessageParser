@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Annotations;
+package com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.MessageProcessing;
 
 import org.atteo.classindex.IndexAnnotated;
 
@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 
 @IndexAnnotated
-public @interface Private {
+public @interface PrivateHandler {
 }

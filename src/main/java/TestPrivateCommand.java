@@ -1,4 +1,4 @@
-import com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Annotations.Private;
+import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.Private;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.PrivateCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
 

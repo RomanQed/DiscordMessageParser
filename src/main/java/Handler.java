@@ -1,6 +1,10 @@
+import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.MessageProcessing.GuildHandler;
+import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.MessageProcessing.PrivateHandler;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.Wrappers.JDAWrapper;
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.MessageParseHandler;
 
+@GuildHandler
+@PrivateHandler
 public class Handler extends MessageParseHandler {
     @Override
     public boolean onMessageParsing(JDAWrapper wrapper, StringBuilder prefix) {

@@ -1,6 +1,5 @@
 package com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.Guild;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Processing.Utils;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.CommandCollection;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.GuildCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.ContextImpl;
@@ -16,16 +15,21 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 
 public class GuildMessageProcessor extends MessageProcessor {
-    private static final CommandCollection<GuildCommand> commands = Utils.getGuildCommandCollection();
+    private final CommandCollection<GuildCommand> commands;
     private final GuildService guildService;
 
-    public GuildMessageProcessor(ExecutorService executor, MessageParseHandler handler) {
+    public GuildMessageProcessor(CommandCollection<GuildCommand> commands, ExecutorService executor, MessageParseHandler handler) {
         super(executor, handler);
+        this.commands = Objects.requireNonNullElse(commands, new CommandCollection<>());
         guildService = new GuildService(service);
     }
 
+    public GuildMessageProcessor(CommandCollection<GuildCommand> commands, MessageParseHandler handler) {
+        this(null, null, handler);
+    }
+
     public GuildMessageProcessor(MessageParseHandler handler) {
-        this(null, handler);
+        this(null, null, handler);
     }
 
     public void processMessage(Message message) {
@@ -56,7 +60,7 @@ public class GuildMessageProcessor extends MessageProcessor {
         guildService.addToQueue(key, () -> processMessage(message));
     }
 
-    public void dropGuildExecutor(long guildId) {
-        guildService.dropGuildQueue(guildId, true);
+    public void dropGuildExecutor(long guildId, boolean safetyDrop) {
+        guildService.dropGuildQueue(guildId, safetyDrop);
     }
 }

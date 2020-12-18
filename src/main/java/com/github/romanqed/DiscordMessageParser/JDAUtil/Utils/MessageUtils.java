@@ -1,6 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.JDAUtil.Utils;
 
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.LinkedEmojiEvent;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -43,6 +44,7 @@ public class MessageUtils {
             sentMessage.addReaction(event.getEmoji()).queue();
             event.setChannelId(sentMessage.getChannel().getIdLong());
             event.setMessageId(sentMessage.getIdLong());
+            LinkedEmojiEvent.COLLECTION.add(event);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

@@ -7,31 +7,28 @@ import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.ContextImpl
 import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.ProcessedCommand;
 import com.github.romanqed.DiscordMessageParser.ContainerUtil.ContainerCollection;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.Wrappers.JDAWrapper;
+import com.github.romanqed.DiscordMessageParser.ProcessUtil.GuildService;
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.MessageParseHandler;
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.MessageProcessor;
-import com.github.romanqed.DiscordMessageParser.ThreadUtil.QueueExecutor;
-import com.github.romanqed.DiscordMessageParser.ThreadUtil.ThreadUtils;
 import net.dv8tion.jda.api.entities.Message;
 
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 
-public class GuildProcessor extends MessageProcessor {
+public class GuildMessageProcessor extends MessageProcessor {
     private static final CommandCollection<GuildCommand> commands = Utils.getGuildCommandCollection();
-    private final Map<Long, QueueExecutor> guildExecutors;
+    private final GuildService guildService;
 
-    public GuildProcessor(ExecutorService executor, MessageParseHandler handler) {
+    public GuildMessageProcessor(ExecutorService executor, MessageParseHandler handler) {
         super(executor, handler);
-        guildExecutors = new ConcurrentHashMap<>();
+        guildService = new GuildService(service);
     }
 
-    public GuildProcessor(MessageParseHandler handler) {
+    public GuildMessageProcessor(MessageParseHandler handler) {
         this(null, handler);
     }
 
-    private void processMessage(Message message) {
+    public void processMessage(Message message) {
         JDAWrapper wrapper = new JDAWrapper(message);
         ProcessedCommand parsedCommand = processMessage(message, wrapper);
         if (parsedCommand == null || !parsedCommand.isSuccess()) {
@@ -54,15 +51,12 @@ public class GuildProcessor extends MessageProcessor {
         command.execute(new ContextImpl(parsedCommand.getRawArguments(), wrapper, collection));
     }
 
-    public void processGuildCommand(Message message) {
+    public void queueMessage(Message message) {
         long key = message.getGuild().getIdLong();
-        QueueExecutor executor = guildExecutors.get(key);
-        if (executor == null) {
-            executor = new QueueExecutor();
-            service.submit(executor);
-            guildExecutors.put(key, executor);
-        }
-        executor.addToQueue(() -> processMessage(message));
-        service.submit(() -> ThreadUtils.safetyCollectExecutors(guildExecutors.values(), ThreadUtils.DEFAULT_FREEZE_TIME));
+        guildService.addToQueue(key, () -> processMessage(message));
+    }
+
+    public void dropGuildExecutor(long guildId) {
+        guildService.dropGuildQueue(guildId, true);
     }
 }

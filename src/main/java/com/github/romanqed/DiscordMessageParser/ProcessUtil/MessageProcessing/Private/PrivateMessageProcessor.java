@@ -13,19 +13,19 @@ import net.dv8tion.jda.api.entities.Message;
 
 import java.util.concurrent.ExecutorService;
 
-public class PrivateProcessor extends MessageProcessor {
+public class PrivateMessageProcessor extends MessageProcessor {
     private static final CommandCollection<PrivateCommand> commands = Utils.getPrivateCommandCollection();
 
-    public PrivateProcessor(ExecutorService service, MessageParseHandler handler) {
+    public PrivateMessageProcessor(ExecutorService service, MessageParseHandler handler) {
         super(service, handler);
         containers.put(0L, new ContainerCollection());
     }
 
-    public PrivateProcessor(MessageParseHandler handler) {
+    public PrivateMessageProcessor(MessageParseHandler handler) {
         this(null, handler);
     }
 
-    private void processMessage(Message message) {
+    public void processMessage(Message message) {
         JDAWrapper wrapper = new JDAWrapper(message);
         ProcessedCommand parsedCommand = processMessage(message, wrapper);
         if (parsedCommand == null || !parsedCommand.isSuccess()) {
@@ -39,7 +39,7 @@ public class PrivateProcessor extends MessageProcessor {
         command.execute(new ContextImpl(parsedCommand.getRawArguments(), wrapper, containers.get(0L)));
     }
 
-    public void processPrivateCommand(Message message) {
+    public void queueMessage(Message message) {
         service.submit(() -> processMessage(message));
     }
 }

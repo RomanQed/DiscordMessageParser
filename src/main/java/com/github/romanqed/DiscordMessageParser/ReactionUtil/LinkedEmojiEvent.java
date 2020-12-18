@@ -4,13 +4,10 @@ import com.github.romanqed.DiscordMessageParser.MathUtils.Hashes;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class LinkedEmojiEvent implements EmojiEvent {
     public static final EventCollection COLLECTION = new EventCollection();
-    private static ExecutorService service = Executors.newCachedThreadPool();
     private final long finalTime;
     private final Consumer<User> action;
     private Runnable byEnd;
@@ -27,8 +24,10 @@ public class LinkedEmojiEvent implements EmojiEvent {
         this.byEnd = Objects.requireNonNullElse(byEnd, () -> {
         });
         emoji = Constants.DEFAULT_EMOJI;
-        COLLECTION.add(this);
-        waitForLifeTime();
+    }
+
+    public LinkedEmojiEvent(int lifeTime, int availableCalls, Consumer<User> action) {
+        this(lifeTime, availableCalls, action, null);
     }
 
     public LinkedEmojiEvent(int lifeTime, int availableCalls) {
@@ -82,15 +81,20 @@ public class LinkedEmojiEvent implements EmojiEvent {
 
     @Override
     public void atFinal(Runnable action) {
-        byEnd = Objects.requireNonNullElse(action, () -> {
-        });
+        if (action != null) {
+            byEnd = action;
+        }
     }
 
     @Override
     public void call(User sender) {
         try {
-            action.accept(sender);
-            availableCalls = Math.max(availableCalls - 1, 0);
+            if (isFinished()) {
+                COLLECTION.remove(id);
+            } else {
+                action.accept(sender);
+                availableCalls = Math.max(availableCalls - 1, 0);
+            }
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -116,26 +120,7 @@ public class LinkedEmojiEvent implements EmojiEvent {
         return getRemainingLifeTime() == 0 || getRemainingCalls() == 0;
     }
 
-    private void waitForLifeTime() {
-        if (COLLECTION.size() == 0) {
-            service = Executors.newCachedThreadPool();
-        }
-        service.submit(() -> {
-            try {
-                Thread.sleep(getRemainingLifeTime());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            byEnd.run();
-            COLLECTION.remove(id);
-            if (COLLECTION.size() == 0) {
-                service.shutdown();
-            }
-        });
-    }
-
     private void calculateId() {
-        long combine = Hashes.combineNumbers(channelId, messageId);
-        this.id = Hashes.combineNumbers(combine, emoji.hashCode());
+        this.id = Hashes.calculateReactionId(channelId, messageId, emoji.hashCode());
     }
 }

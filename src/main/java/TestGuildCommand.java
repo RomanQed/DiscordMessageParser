@@ -1,8 +1,10 @@
 import com.github.romanqed.DiscordMessageParser.CommandUtil.AnnotationUtil.Annotations.Guild;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.GuildCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.Utils.MessageUtils;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
-import com.github.romanqed.DiscordMessageParser.ReactionUtil.LinkedEmojiEvent;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.Events;
+import net.dv8tion.jda.api.entities.Message;
 
 @Guild
 public class TestGuildCommand extends GuildCommand {
@@ -12,9 +14,10 @@ public class TestGuildCommand extends GuildCommand {
 
     @Override
     public void execute(Context context) {
-        EmojiEvent event = new LinkedEmojiEvent(500, user -> {
-            context.getJDAWrapper().sendMessage("Reactioned!");
+        Message sentMessage = context.getJDAWrapper().sendMessage("test");
+        EmojiEvent event = Events.newEvent(user -> {
+            sentMessage.editMessage(user.toString()).queue();
         });
-        context.getJDAWrapper().sendMessage("test", event);
+        MessageUtils.addEventToSentMessage(event, sentMessage);
     }
 }

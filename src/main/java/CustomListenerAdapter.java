@@ -28,9 +28,7 @@ public class CustomListenerAdapter extends ListenerAdapter {
         if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             return;
         }
-        long start = System.nanoTime();
         guildMessageProcessor.queueMessage(event.getMessage());
-        event.getChannel().sendMessage(Long.toString(System.nanoTime() - start)).queue();
     }
 
     @Override
@@ -41,9 +39,7 @@ public class CustomListenerAdapter extends ListenerAdapter {
         if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             return;
         }
-        long start = System.nanoTime();
         guildMessageProcessor.queueMessage(event.getMessage());
-        event.getChannel().sendMessage(Long.toString(System.nanoTime() - start)).queue();
     }
 
     @Override
@@ -58,9 +54,7 @@ public class CustomListenerAdapter extends ListenerAdapter {
 
     @Override
     public void onGuildMessageDelete(@NotNull GuildMessageDeleteEvent event) {
-        long start = System.nanoTime();
         guildReactionProcessor.queueReactionRemove(event.getGuild().getIdLong(), event.getMessageIdLong());
-        event.getChannel().sendMessage(Long.toString(System.nanoTime() - start)).queue();
     }
 
     @Override
@@ -71,23 +65,19 @@ public class CustomListenerAdapter extends ListenerAdapter {
         if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             return;
         }
-        long start = System.nanoTime();
         guildReactionProcessor.queueReaction(event.getReaction(), event.getUser());
-        event.getChannel().sendMessage(Long.toString(System.nanoTime() - start)).queue();
     }
 
     @Override
     public void onGuildMessageReactionRemove(@NotNull GuildMessageReactionRemoveEvent event) {
-        if (event.getUser().isBot()) {
+        if (event.getUser() == null || event.getUser().isBot()) {
             return;
         }
         if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             return;
         }
         try {
-            long start = System.nanoTime();
             guildReactionProcessor.queueReaction(event.getReaction(), event.getUser());
-            event.getChannel().sendMessage(Long.toString(System.nanoTime() - start)).queue();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -95,8 +85,6 @@ public class CustomListenerAdapter extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReactionRemoveAll(@NotNull GuildMessageReactionRemoveAllEvent event) {
-        long start = System.nanoTime();
         guildReactionProcessor.queueReactionRemove(event.getGuild().getIdLong(), event.getMessageIdLong());
-        event.getChannel().sendMessage(Long.toString(System.nanoTime() - start)).queue();
     }
 }

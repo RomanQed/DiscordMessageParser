@@ -8,6 +8,7 @@ and various processing actions. Based on JDA.
 ```Groovy
 compile group: 'net.dv8tion', name: 'JDA', version: '4.2.0_222'
 compile group: 'com.github.romanqed', name: 'DiscordMessageParser', version: '0.1.1'
+compile group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 ```
 

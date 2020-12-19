@@ -28,4 +28,12 @@ public class Processing {
         long emojiHash = reaction.getReactionEmote().getEmoji().hashCode();
         return Hashes.calculateReactionId(channelId, messageId, emojiHash);
     }
+
+    public static int countReactions(MessageReaction reaction) {
+        try {
+            return reaction.getCount();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 }

@@ -4,6 +4,10 @@ import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
 
 @Private
 public class TestPrivateCommand extends PrivateCommand {
+    public TestPrivateCommand() {
+        super("Ya");
+    }
+
     @Override
     public void execute(Context context) {
         context.getJDAWrapper().reply("Hi from " + toString());

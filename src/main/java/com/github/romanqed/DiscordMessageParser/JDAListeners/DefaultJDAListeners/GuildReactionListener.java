@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveAllEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +21,14 @@ public class GuildReactionListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReactionAdd(@NotNull GuildMessageReactionAddEvent event) {
+        if (event.getUser().isBot()) {
+            return;
+        }
+        processor.queueReaction(event.getReaction(), event.getUser());
+    }
+
+    @Override
+    public void onGuildMessageReactionRemove(@NotNull GuildMessageReactionRemoveEvent event) {
         if (event.getUser().isBot()) {
             return;
         }

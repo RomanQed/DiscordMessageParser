@@ -25,7 +25,7 @@ public class PrivateReactionProcessor extends ReactionProcessor {
         service.submit(() -> {
             EmojiEvent event = processReaction(reaction);
             if (event != null) {
-                event.call(user);
+                event.call(reaction, user);
             }
         });
     }

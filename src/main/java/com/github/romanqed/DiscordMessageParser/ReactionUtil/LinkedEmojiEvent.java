@@ -1,15 +1,16 @@
 package com.github.romanqed.DiscordMessageParser.ReactionUtil;
 
 import com.github.romanqed.DiscordMessageParser.MathUtils.Hashes;
+import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.Objects;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public class LinkedEmojiEvent implements EmojiEvent {
     public static final EventCollection COLLECTION = new EventCollection();
     private final long finalTime;
-    private final Consumer<User> action;
+    private final BiConsumer<MessageReaction, User> action;
     private Runnable byEnd;
     private String emoji;
     private long id;
@@ -17,16 +18,19 @@ public class LinkedEmojiEvent implements EmojiEvent {
     private long channelId;
     private int availableCalls;
 
-    public LinkedEmojiEvent(int lifeTime, int availableCalls, Consumer<User> action, Runnable byEnd) {
+    public LinkedEmojiEvent(int lifeTime, int availableCalls, BiConsumer<MessageReaction, User> action, Runnable byEnd) {
         this.finalTime = System.currentTimeMillis() + Math.max(lifeTime, 0);
         this.availableCalls = Math.max(availableCalls, 1);
-        this.action = Objects.requireNonNullElse(action, System.out::println);
+        this.action = Objects.requireNonNullElse(action, ((reaction, user) -> {
+            System.out.println(reaction);
+            System.out.println(user);
+        }));
         this.byEnd = Objects.requireNonNullElse(byEnd, () -> {
         });
         emoji = Constants.DEFAULT_EMOJI;
     }
 
-    public LinkedEmojiEvent(int lifeTime, int availableCalls, Consumer<User> action) {
+    public LinkedEmojiEvent(int lifeTime, int availableCalls, BiConsumer<MessageReaction, User> action) {
         this(lifeTime, availableCalls, action, null);
     }
 
@@ -34,11 +38,11 @@ public class LinkedEmojiEvent implements EmojiEvent {
         this(lifeTime, availableCalls, null, null);
     }
 
-    public LinkedEmojiEvent(int lifeTime, Consumer<User> action) {
+    public LinkedEmojiEvent(int lifeTime, BiConsumer<MessageReaction, User> action) {
         this(lifeTime, Constants.DEFAULT_CALLS_AMOUNT, action, null);
     }
 
-    public LinkedEmojiEvent(Consumer<User> action) {
+    public LinkedEmojiEvent(BiConsumer<MessageReaction, User> action) {
         this(Constants.DEFAULT_LIFE_TIME, Constants.DEFAULT_CALLS_AMOUNT, action, null);
     }
 
@@ -87,12 +91,12 @@ public class LinkedEmojiEvent implements EmojiEvent {
     }
 
     @Override
-    public void call(User sender) {
+    public void call(MessageReaction reaction, User user) {
         try {
             if (isFinished()) {
                 COLLECTION.remove(id);
             } else {
-                action.accept(sender);
+                action.accept(reaction, user);
                 availableCalls = Math.max(availableCalls - 1, 0);
             }
         } catch (Exception e) {

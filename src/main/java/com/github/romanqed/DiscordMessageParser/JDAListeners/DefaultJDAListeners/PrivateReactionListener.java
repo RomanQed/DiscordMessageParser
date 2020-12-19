@@ -2,6 +2,7 @@ package com.github.romanqed.DiscordMessageParser.JDAListeners.DefaultJDAListener
 
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.ReactionProcessing.Private.PrivateReactionProcessor;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionRemoveEvent;
@@ -19,18 +20,20 @@ public class PrivateReactionListener extends ListenerAdapter {
 
     @Override
     public void onPrivateMessageReactionAdd(@NotNull PrivateMessageReactionAddEvent event) {
-        if (event.getUser().isBot()) {
+        User sender = event.getUser();
+        if (sender == null || sender.isBot()) {
             return;
         }
-        processor.queueReaction(event.getReaction(), event.getUser());
+        processor.queueReaction(event.getReaction(), sender);
     }
 
     @Override
     public void onPrivateMessageReactionRemove(@NotNull PrivateMessageReactionRemoveEvent event) {
-        if (event.getUser().isBot()) {
+        User sender = event.getUser();
+        if (sender == null || sender.isBot()) {
             return;
         }
-        processor.queueReaction(event.getReaction(), event.getUser());
+        processor.queueReaction(event.getReaction(), sender);
     }
 
     @Override

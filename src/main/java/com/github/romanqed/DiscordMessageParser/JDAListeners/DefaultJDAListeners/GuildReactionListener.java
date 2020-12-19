@@ -2,6 +2,7 @@ package com.github.romanqed.DiscordMessageParser.JDAListeners.DefaultJDAListener
 
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.ReactionProcessing.Guild.GuildReactionProcessor;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
@@ -10,6 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemove
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 
 public class GuildReactionListener extends ListenerAdapter {
@@ -29,10 +31,11 @@ public class GuildReactionListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReactionRemove(@NotNull GuildMessageReactionRemoveEvent event) {
-        if (event.getUser().isBot()) {
+        User sender = Objects.requireNonNullElse(event.getUser(), event.retrieveUser().complete());
+        if (sender.isBot()) {
             return;
         }
-        processor.queueReaction(event.getReaction(), event.getUser());
+        processor.queueReaction(event.getReaction(), sender);
     }
 
     @Override

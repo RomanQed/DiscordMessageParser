@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.JDABuilder;
 
 public class Bot {
     public static void main(String[] args) throws Exception {
-        String token = "your token";
+        String token = "NjkwMTgwMzc4MzQ2MTI3NDcy.XnNqkQ.C2hT27MIuO7hPq2vbWQbKsqQHqI";
         JDABuilder bot = JDABuilder.createDefault(token);
         JDAListenerFabric fabric = Fabrics.newAsyncFabric();
         if (fabric == null) {

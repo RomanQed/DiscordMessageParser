@@ -93,11 +93,10 @@ public class LinkedEmojiEvent implements EmojiEvent {
     @Override
     public void call(MessageReaction reaction, User user) {
         try {
+            action.accept(reaction, user);
+            availableCalls = Math.max(availableCalls - 1, 0);
             if (isFinished()) {
                 COLLECTION.remove(id);
-            } else {
-                action.accept(reaction, user);
-                availableCalls = Math.max(availableCalls - 1, 0);
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());

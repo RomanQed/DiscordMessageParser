@@ -15,14 +15,14 @@ publish {
     userOrg = 'romanqed'
     groupId = 'com.github.romanqed'
     artifactId = 'DiscordMessageParser'
-    publishVersion = '0.0.11'
+    publishVersion = '0.1.0'
     desc = 'A simple library for parsing discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.'
     website = 'https://github.com/RomanQed/DiscordMessageParser'
     licences = ['MIT']
 }
 
 group 'com.github.romanqed'
-version '0.0.11'
+version '0.1.0'
 
 repositories {
     mavenCentral()
@@ -32,7 +32,6 @@ repositories {
 dependencies {
     implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.0_222'
     implementation group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
-    annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 }
 
 compileJava.options.encoding = 'UTF-8'

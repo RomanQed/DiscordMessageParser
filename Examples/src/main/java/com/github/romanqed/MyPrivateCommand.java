@@ -1,17 +1,13 @@
 package com.github.romanqed;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.PrivateCommand;
-import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.PrivateCommandEvent;
-import com.github.romanqed.DiscordMessageParser.CommandUtil.BotCommand.ServiceAnnotation.BotCommand;
+import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.Private;
+import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.PrivateCommand;
+import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
 
-@BotCommand
+@Private
 public class MyPrivateCommand extends PrivateCommand {
-    public MyPrivateCommand() {
-        super("MyPrivateCommand");
-    }
-
     @Override
-    public void execute(PrivateCommandEvent event) {
-        event.sendMessage("This is my private command!");
+    public void execute(Context context) {
+        context.getJDAWrapper().sendMessage(toString());
     }
 }

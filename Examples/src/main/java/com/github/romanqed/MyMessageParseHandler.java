@@ -1,3 +1,5 @@
+package com.github.romanqed;
+
 import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.MessageProcessing.GuildHandler;
 import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.MessageProcessing.PrivateHandler;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.Wrappers.JDAWrapper;
@@ -5,7 +7,7 @@ import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.Me
 
 @GuildHandler
 @PrivateHandler
-public class Handler extends MessageParseHandler {
+public class MyMessageParseHandler extends MessageParseHandler {
     @Override
     public boolean onMessageParsing(JDAWrapper wrapper, StringBuilder prefix) {
         prefix.append("!");

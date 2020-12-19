@@ -1,3 +1,5 @@
+package com.github.romanqed;
+
 import com.github.romanqed.DiscordMessageParser.JDAListeners.Fabrics;
 import com.github.romanqed.DiscordMessageParser.JDAListeners.JDAListenerFabric;
 import net.dv8tion.jda.api.JDA;

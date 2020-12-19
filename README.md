@@ -19,7 +19,6 @@ annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: 
 @Guild
 public class MyGuildCommand extends GuildCommand {
     public MyGuildCommand() {
-        super("MyGuildCommand");
         addRoles("MyRole");
         addPermissions(Permission.MESSAGE_MANAGE);
     }

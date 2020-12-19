@@ -33,4 +33,8 @@ public class PrivateReactionProcessor extends ReactionProcessor {
     public void queueReactionRemove(long messageId) {
         service.submit(() -> processReactionRemove(messageId));
     }
+
+    public void queueReactionRemove(MessageReaction reaction) {
+        service.submit(() -> processReactionRemove(reaction));
+    }
 }

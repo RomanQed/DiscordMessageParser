@@ -29,9 +29,9 @@ public class Processing {
         return Hashes.calculateReactionId(channelId, messageId, emojiHash);
     }
 
-    public static int countReactions(MessageReaction reaction) {
+    public static long countReactions(MessageReaction reaction) {
         try {
-            return reaction.getCount();
+            return reaction.retrieveUsers().stream().count();
         } catch (Exception e) {
             return 0;
         }

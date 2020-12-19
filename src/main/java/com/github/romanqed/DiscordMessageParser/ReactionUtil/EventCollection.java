@@ -64,6 +64,14 @@ public class EventCollection {
         events.remove(id);
     }
 
+    public void removeByReaction(MessageReaction reaction) {
+        if (reaction == null) {
+            return;
+        }
+        long id = Processing.calculateReactionId(reaction);
+        remove(id);
+    }
+
     public void removeByMessageId(long messageId) {
         events.values().forEach(event -> {
             if (event.getMessageId() == messageId) {

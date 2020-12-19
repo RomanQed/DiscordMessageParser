@@ -26,6 +26,10 @@ public abstract class ReactionProcessor {
         return events.findByReaction(reaction);
     }
 
+    public void processReactionRemove(MessageReaction reaction) {
+        events.removeByReaction(reaction);
+    }
+
     public void processReactionRemove(long messageId) {
         events.remove(messageId);
     }

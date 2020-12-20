@@ -24,6 +24,26 @@ public class JDAWrapper {
         return body.getJDA();
     }
 
+    public Guild getGuild() {
+        return body.getGuild();
+    }
+
+    public long getGuildIdLong() {
+        try {
+            return body.getGuild().getIdLong();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public String getGuildId() {
+        try {
+            return body.getGuild().getId();
+        } catch (Exception e) {
+            return "0";
+        }
+    }
+
     public Message getMessage() {
         return body;
     }

@@ -3,7 +3,9 @@ package com.github.romanqed.DiscordMessageParser.JDAUtil.Wrappers;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.Utils.*;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 import java.util.List;
 import java.util.Objects;
@@ -52,44 +54,94 @@ public class JDAWrapper {
         return body.getChannel();
     }
 
-    public Message sendMessage(Message message) {
-        return MessageUtils.sendMessage(body.getChannel(), message);
+    public Message completeSendMessage(Message message) {
+        return MessageUtils.completeMessage(body.getChannel(), message);
     }
 
-    public Message sendMessage(Message message, EmojiEvent event) {
-        Message sentMessage = sendMessage(message);
+    public Message completeSendMessage(Message message, EmojiEvent event) {
+        Message sentMessage = completeSendMessage(message);
         MessageUtils.addEventToSentMessage(event, sentMessage);
         return sentMessage;
     }
 
-    public Message sendMessage(String message) {
-        return MessageUtils.sendMessage(body.getChannel(), message);
+    public Message completeSendMessage(String message) {
+        return MessageUtils.completeMessage(body.getChannel(), message);
     }
 
-    public Message sendMessage(String message, EmojiEvent event) {
-        Message sentMessage = sendMessage(message);
+    public Message completeSendMessage(String message, EmojiEvent event) {
+        Message sentMessage = completeSendMessage(message);
         MessageUtils.addEventToSentMessage(event, sentMessage);
         return sentMessage;
     }
 
-    public Message reply(Message message) {
-        return MessageUtils.replyToMessage(body, message);
+    public void sendMessage(Message message, EmojiEvent event) {
+        MessageAction action = getChannel().sendMessage(message);
+        if (!MessageUtils.addEventToMessageAction(event, action)) {
+            action.queue();
+        }
     }
 
-    public Message reply(Message message, EmojiEvent event) {
-        Message sentMessage = reply(message);
+    public void sendMessage(Message message) {
+        sendMessage(message, null);
+    }
+
+    public void sendMessage(String message, EmojiEvent event) {
+        Message parsedMessage;
+        try {
+            parsedMessage = new MessageBuilder(message).build();
+        } catch (Exception e) {
+            return;
+        }
+        sendMessage(parsedMessage, event);
+    }
+
+    public void sendMessage(String message) {
+        sendMessage(message, null);
+    }
+
+    public Message completeReply(Message message, EmojiEvent event) {
+        Message sentMessage = completeReply(message);
         MessageUtils.addEventToSentMessage(event, message);
         return sentMessage;
     }
 
-    public Message reply(String message) {
-        return MessageUtils.replyToMessage(body, message);
+    public Message completeReply(Message message) {
+        return MessageUtils.completeReplyToMessage(body, message);
     }
 
-    public Message reply(String message, EmojiEvent event) {
-        Message sentMessage = reply(message);
+    public Message completeReply(String message, EmojiEvent event) {
+        Message sentMessage = completeReply(message);
         MessageUtils.addEventToSentMessage(event, sentMessage);
         return sentMessage;
+    }
+
+    public Message completeReply(String message) {
+        return MessageUtils.completeReplyToMessage(body, message);
+    }
+
+    public void reply(Message message, EmojiEvent event) {
+        MessageAction action = body.reply(message);
+        if (!MessageUtils.addEventToMessageAction(event, action)) {
+            action.queue();
+        }
+    }
+
+    public void reply(Message message) {
+        reply(message, null);
+    }
+
+    public void reply(String message, EmojiEvent event) {
+        Message parsedMessage;
+        try {
+            parsedMessage = new MessageBuilder(message).build();
+        } catch (Exception e) {
+            return;
+        }
+        reply(parsedMessage, event);
+    }
+
+    public void reply(String message) {
+        reply(message, null);
     }
 
     public User getUserById(long id) {

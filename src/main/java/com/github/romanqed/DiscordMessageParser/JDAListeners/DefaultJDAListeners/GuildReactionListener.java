@@ -1,7 +1,9 @@
 package com.github.romanqed.DiscordMessageParser.JDAListeners.DefaultJDAListeners;
 
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.ReactionProcessing.Guild.GuildReactionProcessor;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.Constants;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.ReactionContextImpl;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
@@ -26,7 +28,7 @@ public class GuildReactionListener extends ListenerAdapter {
         if (event.getUser().isBot()) {
             return;
         }
-        processor.queueReaction(event.getReaction(), event.getUser());
+        processor.queueReaction(new ReactionContextImpl(event.getReaction(), event.getUser(), Constants.ADD_REACTION));
     }
 
     @Override
@@ -35,7 +37,7 @@ public class GuildReactionListener extends ListenerAdapter {
         if (sender.isBot()) {
             return;
         }
-        processor.queueReaction(event.getReaction(), sender);
+        processor.queueReaction(new ReactionContextImpl(event.getReaction(), sender, Constants.REMOVE_REACTION));
     }
 
     @Override

@@ -4,10 +4,8 @@ import com.github.romanqed.DiscordMessageParser.ProcessUtil.GuildService;
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.ReactionProcessing.ReactionProcessor;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
-import net.dv8tion.jda.api.entities.MessageReaction;
-import net.dv8tion.jda.api.entities.User;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.ReactionContext;
 
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 
 public class GuildReactionProcessor extends ReactionProcessor {
@@ -26,11 +24,11 @@ public class GuildReactionProcessor extends ReactionProcessor {
         this(null, null);
     }
 
-    public void queueReaction(MessageReaction reaction, User user) {
-        guildService.addToQueue(Objects.requireNonNull(reaction.getGuild()).getIdLong(), () -> {
-            EmojiEvent event = processReaction(reaction);
+    public void queueReaction(ReactionContext context) {
+        guildService.addToQueue(context.getGuildId(), () -> {
+            EmojiEvent event = processReaction(context.getReaction());
             if (event != null) {
-                event.call(reaction, user);
+                event.call(context);
             }
         });
     }

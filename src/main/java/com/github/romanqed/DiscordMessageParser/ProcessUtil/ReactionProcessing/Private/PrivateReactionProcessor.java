@@ -3,8 +3,7 @@ package com.github.romanqed.DiscordMessageParser.ProcessUtil.ReactionProcessing.
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.ReactionProcessing.ReactionProcessor;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
-import net.dv8tion.jda.api.entities.MessageReaction;
-import net.dv8tion.jda.api.entities.User;
+import com.github.romanqed.DiscordMessageParser.ReactionUtil.ReactionContext;
 
 import java.util.concurrent.ExecutorService;
 
@@ -21,11 +20,11 @@ public class PrivateReactionProcessor extends ReactionProcessor {
         this(null, null);
     }
 
-    public void queueReaction(MessageReaction reaction, User user) {
+    public void queueReaction(ReactionContext context) {
         service.submit(() -> {
-            EmojiEvent event = processReaction(reaction);
+            EmojiEvent event = processReaction(context.getReaction());
             if (event != null) {
-                event.call(reaction, user);
+                event.call(context);
             }
         });
     }

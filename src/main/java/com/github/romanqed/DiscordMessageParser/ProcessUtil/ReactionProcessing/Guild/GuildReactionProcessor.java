@@ -35,14 +35,6 @@ public class GuildReactionProcessor extends ReactionProcessor {
         });
     }
 
-    public void queueReactionRemove(long guildId, long messageId) {
-        guildService.addToQueue(guildId, () -> processReactionRemove(messageId));
-    }
-
-    public void queueReactionRemove(long guildId, MessageReaction reaction) {
-        guildService.addToQueue(guildId, () -> processReactionRemove(reaction));
-    }
-
     public void dropGuildExecutor(long guildId, boolean safetyDrop) {
         guildService.dropGuildQueue(guildId, safetyDrop);
     }

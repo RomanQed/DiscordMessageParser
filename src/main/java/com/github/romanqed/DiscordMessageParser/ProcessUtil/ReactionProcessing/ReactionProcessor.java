@@ -1,6 +1,5 @@
 package com.github.romanqed.DiscordMessageParser.ProcessUtil.ReactionProcessing;
 
-import com.github.romanqed.DiscordMessageParser.JDAUtil.Utils.Processing;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EmojiEvent;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import net.dv8tion.jda.api.entities.MessageReaction;
@@ -20,7 +19,7 @@ public abstract class ReactionProcessor {
 
     public EmojiEvent processReaction(MessageReaction reaction) {
         MessageReaction.ReactionEmote emote = reaction.getReactionEmote();
-        if (Processing.countReactions(reaction) == 0 || !emote.isEmoji()) {
+        if (!emote.isEmoji()) {
             return null;
         }
         return events.findByReaction(reaction);
@@ -32,5 +31,13 @@ public abstract class ReactionProcessor {
 
     public void processReactionRemove(long messageId) {
         events.remove(messageId);
+    }
+
+    public void queueReactionRemove(MessageReaction reaction) {
+        service.submit(() -> processReactionRemove(reaction));
+    }
+
+    public void queueReactionRemove(long messageId) {
+        service.submit(() -> processReactionRemove(messageId));
     }
 }

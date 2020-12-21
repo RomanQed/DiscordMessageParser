@@ -1,4 +1,4 @@
-package com.github.romanqed.DiscordMessageParser.MathUtils;
+package com.github.romanqed.DiscordMessageParser.Utils;
 
 public class Hashes {
     public static long combineNumbers(long left, long right) {

@@ -1,6 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.ReactionUtil;
 
-import com.github.romanqed.DiscordMessageParser.MathUtils.Hashes;
+import com.github.romanqed.DiscordMessageParser.Utils.Hashes;
 
 import java.util.Objects;
 import java.util.function.Consumer;

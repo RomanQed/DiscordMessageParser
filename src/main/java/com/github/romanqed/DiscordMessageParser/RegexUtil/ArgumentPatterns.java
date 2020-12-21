@@ -1,26 +1,36 @@
 package com.github.romanqed.DiscordMessageParser.RegexUtil;
 
+import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.Utils;
+import com.github.romanqed.DiscordMessageParser.Utils.Lists;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArgumentPatternList {
+public class ArgumentPatterns {
     private final List<ArgumentPattern> list;
 
-    public ArgumentPatternList(ArgumentPattern... patterns) {
+    public ArgumentPatterns(int count, boolean isStrong, ArgumentPattern... patterns) {
         if (patterns == null || patterns.length == 0) {
             list = new ArrayList<>();
+            return;
+        }
+        boolean checkResult = Utils.validatePatterns(count > 1 && !isStrong, count > 1 && isStrong, patterns);
+        if (!checkResult) {
+            throw new IllegalArgumentException("Invalid pattern list!");
+        }
+        if (count > 1) {
+            list = Lists.multiplyList(List.of(patterns), count);
         } else {
-            for (int i = 0; i < patterns.length - 1; ++i) {
-                if (!patterns[i].isStrong() && patterns[i + 1].isStrong()) {
-                    throw new IllegalArgumentException("Strong parameters cannot be followed after optional!");
-                }
-            }
             list = List.of(patterns);
         }
     }
 
+    public ArgumentPatterns(ArgumentPattern... patterns) {
+        this(1, false, patterns);
+    }
+
     public boolean processArgumentList(List<String> arguments) {
-        if (arguments == null) {
+        if (arguments == null || list.isEmpty()) {
             return false;
         }
         if (arguments.size() < getStrongArgumentsCount() || arguments.size() > getSize()) {
@@ -56,5 +66,10 @@ public class ArgumentPatternList {
 
     public boolean isEmpty() {
         return list.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return list.toString();
     }
 }

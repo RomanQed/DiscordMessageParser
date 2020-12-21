@@ -1,6 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.JDAUtil.Utils;
 
-import com.github.romanqed.DiscordMessageParser.MathUtils.Hashes;
+import com.github.romanqed.DiscordMessageParser.Utils.Hashes;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageReaction;
 

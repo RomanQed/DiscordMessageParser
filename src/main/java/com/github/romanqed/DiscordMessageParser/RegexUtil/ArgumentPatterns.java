@@ -4,6 +4,7 @@ import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.Utils;
 import com.github.romanqed.DiscordMessageParser.Utils.Lists;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ArgumentPatterns {
@@ -42,9 +43,7 @@ public class ArgumentPatterns {
                 return false;
             }
         }
-        for (int i = 0; i < list.size() - arguments.size(); ++i) {
-            arguments.add("");
-        }
+        arguments.addAll(Collections.nCopies(list.size() - arguments.size(), ""));
         return true;
     }
 

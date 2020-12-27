@@ -84,6 +84,6 @@ public class GuildCommand extends GenericCommand {
 
     @Override
     public String toString() {
-        return "[Guild] " + name + " [Permissions] " + permissions.toString() + " [Roles] " + roles.toString();
+        return "[GuildCommandClass] " + name + " [Permissions] " + permissions.toString() + " [Roles] " + roles.toString();
     }
 }

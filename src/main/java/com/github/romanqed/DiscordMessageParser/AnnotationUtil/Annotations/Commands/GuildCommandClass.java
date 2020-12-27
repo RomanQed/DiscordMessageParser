@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 
 @IndexAnnotated
-public @interface Guild {
+public @interface GuildCommandClass {
 }

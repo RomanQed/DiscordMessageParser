@@ -1,7 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.AnnotationUtil.Processing;
 
-import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.Guild;
-import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.Private;
+import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.GuildCommandClass;
+import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.PrivateCommandClass;
 import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.MessageProcessing.GuildHandler;
 import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.MessageProcessing.PrivateHandler;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.CommandCollection;
@@ -28,7 +28,7 @@ public class Utils {
 
     public static Set<PrivateCommand> getPrivateCommands() {
         try {
-            return getAnnotatedCommands(PrivateCommand.class, Private.class);
+            return getAnnotatedCommands(PrivateCommand.class, PrivateCommandClass.class);
         } catch (Exception e) {
             return new HashSet<>();
         }
@@ -36,7 +36,7 @@ public class Utils {
 
     public static Set<GuildCommand> getGuildCommands() {
         try {
-            return getAnnotatedCommands(GuildCommand.class, Guild.class);
+            return getAnnotatedCommands(GuildCommand.class, GuildCommandClass.class);
         } catch (Exception e) {
             return new HashSet<>();
         }

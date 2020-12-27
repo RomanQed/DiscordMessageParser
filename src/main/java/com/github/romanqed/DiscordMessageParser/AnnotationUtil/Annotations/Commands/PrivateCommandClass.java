@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 
 @IndexAnnotated
-public @interface Private {
+public @interface PrivateCommandClass {
 }

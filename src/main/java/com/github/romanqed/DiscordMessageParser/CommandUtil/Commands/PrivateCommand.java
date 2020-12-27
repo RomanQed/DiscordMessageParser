@@ -11,6 +11,6 @@ public class PrivateCommand extends GenericCommand {
 
     @Override
     public String toString() {
-        return "[Private] " + name;
+        return "[PrivateCommandClass] " + name;
     }
 }

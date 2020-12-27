@@ -14,6 +14,11 @@ public class Processing {
         return userMention.replace("!", "").replace("<@", "").replace(">", "");
     }
 
+    public static String parseChannelMention(String channelMention) {
+        channelMention = Objects.requireNonNullElse(channelMention, "");
+        return channelMention.replace("<#", "").replace(">", "");
+    }
+
     public static Guild.Ban getUserBanByUserTag(List<Guild.Ban> banList, String userTag) {
         if (banList == null) {
             return null;

@@ -7,6 +7,8 @@ public enum ArgumentPattern {
     OPTIONAL_ID("\\d{18}", false),
     USER_MENTION("<@!{0,1}\\d{18}>"),
     OPTIONAL_USER_MENTION("<@!{0,1}\\d{18}>", false),
+    CHANNEL_MENTION("<#\\d{18}>"),
+    OPTIONAL_CHANNEL_MENTION("<#\\d{18}>", false),
     USER_TAG("[^@]{2,32}#\\d{4}"),
     OPTIONAL_USER_TAG("[^@]{2,32}#\\d{4}", false),
     NUMBER("[-+]?([0-9]*\\.[0-9]+|[0-9]+)"),

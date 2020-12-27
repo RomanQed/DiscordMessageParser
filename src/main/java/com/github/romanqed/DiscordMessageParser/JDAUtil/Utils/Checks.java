@@ -22,6 +22,14 @@ public class Checks {
         }
     }
 
+    public static boolean isChannelMention(String channelMention) {
+        try {
+            return ArgumentPattern.CHANNEL_MENTION.getPattern().matcher(channelMention).matches();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static boolean isUserTag(String rawUserName) {
         rawUserName = Objects.requireNonNullElse(rawUserName, "");
         return ArgumentPattern.USER_TAG.getPattern().matcher(rawUserName).matches();

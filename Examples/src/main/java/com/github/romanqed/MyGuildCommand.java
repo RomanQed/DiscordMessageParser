@@ -1,11 +1,11 @@
 package com.github.romanqed;
 
-import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.Guild;
+import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Commands.GuildCommandClass;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.GuildCommand;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
 import net.dv8tion.jda.api.Permission;
 
-@Guild
+@GuildCommandClass
 public class MyGuildCommand extends GuildCommand {
     public MyGuildCommand() {
         addRoles("MyRole");

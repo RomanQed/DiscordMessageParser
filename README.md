@@ -17,7 +17,7 @@ annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: 
 ##### Guild command
 
 ```Java
-@Guild
+@GuildCommandClass
 public class MyGuildCommand extends GuildCommand {
     public MyGuildCommand() {
         addRoles("MyRole");
@@ -34,7 +34,7 @@ public class MyGuildCommand extends GuildCommand {
 ##### Private command
 
 ```Java
-@Private
+@PrivateCommandClass
 public class MyPrivateCommand extends PrivateCommand {
     @Override
     public void execute(Context context) {

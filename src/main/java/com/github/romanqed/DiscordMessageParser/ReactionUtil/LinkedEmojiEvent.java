@@ -108,6 +108,11 @@ public class LinkedEmojiEvent implements EmojiEvent {
     }
 
     @Override
+    public void stopFollow() {
+        COLLECTION.remove(id);
+    }
+
+    @Override
     public int getRemainingLifeTime() {
         return (int) Math.max(finalTime - System.currentTimeMillis(), 0);
     }

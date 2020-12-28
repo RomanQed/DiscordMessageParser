@@ -31,6 +31,10 @@ public class EventCollection {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+            Future<?> checkedTask = tasks.get(id);
+            if (checkedTask == null || checkedTask.isDone() || checkedTask.isCancelled()) {
+                return;
+            }
             event.finalEvent();
             events.remove(id);
         });

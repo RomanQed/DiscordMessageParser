@@ -30,7 +30,7 @@ public abstract class ReactionProcessor {
     }
 
     public void processReactionRemove(long messageId) {
-        events.remove(messageId);
+        events.removeByMessageId(messageId);
     }
 
     public void queueReactionRemove(MessageReaction reaction) {

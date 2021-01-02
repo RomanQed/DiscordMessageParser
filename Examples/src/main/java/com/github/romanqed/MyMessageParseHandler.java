@@ -5,12 +5,14 @@ import com.github.romanqed.DiscordMessageParser.AnnotationUtil.Annotations.Messa
 import com.github.romanqed.DiscordMessageParser.JDAUtil.Wrappers.JDAWrapper;
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.MessageParseHandler;
 
+import java.util.Set;
+
 @GuildHandler
 @PrivateHandler
 public class MyMessageParseHandler extends MessageParseHandler {
     @Override
-    public boolean onMessageParsing(JDAWrapper wrapper, StringBuilder prefix) {
-        prefix.append("!");
+    public boolean onMessageParsing(JDAWrapper wrapper, Set<String> prefixes) {
+        prefixes.add("!");
         return false;
     }
 

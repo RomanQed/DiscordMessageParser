@@ -6,8 +6,10 @@ import com.github.romanqed.DiscordMessageParser.ContainerUtil.ContainerCollectio
 import com.github.romanqed.DiscordMessageParser.JDAUtil.Wrappers.JDAWrapper;
 import net.dv8tion.jda.api.entities.Message;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,11 +32,12 @@ public abstract class MessageProcessor {
     }
 
     public ProcessedCommand processMessage(Message message, JDAWrapper wrapper) {
-        StringBuilder prefix = new StringBuilder();
-        if (handler.onMessageParsing(wrapper, prefix)) {
+        Set<String> prefixes = new HashSet<>();
+        if (handler.onMessageParsing(wrapper, prefixes)) {
             return null;
         }
-        parser.setPrefix(prefix.toString());
+        parser.clearPrefixes();
+        parser.addPrefixes(prefixes);
         return parser.parseCommand(message.getContentRaw());
     }
 }

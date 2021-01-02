@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.MessageReaction;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Processing {
     public static String parseUserMention(String userMention) {
@@ -23,8 +22,10 @@ public class Processing {
         if (banList == null) {
             return null;
         }
-        Optional<Guild.Ban> ban = banList.stream().findFirst().filter(predicate -> predicate.getUser().getAsTag().contentEquals(userTag));
-        return ban.orElse(null);
+        return banList.stream()
+                .filter(predicate -> predicate.getUser().getAsTag().equals(userTag))
+                .findFirst()
+                .orElse(null);
     }
 
     public static long calculateReactionId(MessageReaction reaction) {

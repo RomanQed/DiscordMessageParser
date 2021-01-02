@@ -1,8 +1,8 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil;
 
-import com.github.romanqed.DiscordMessageParser.RegexUtil.ArgumentPattern;
 import com.github.romanqed.DiscordMessageParser.RegexUtil.ArgumentPatterns;
 import com.github.romanqed.DiscordMessageParser.RegexUtil.CommandPattern;
+import com.github.romanqed.DiscordMessageParser.RegexUtil.Patterns;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,24 +37,21 @@ public class ArgumentParser {
         return notParsedArguments;
     }
 
-    public List<String> parseArguments(int count, boolean isStrong, ArgumentPattern... patterns) {
+    public List<String> parseArguments(int count, boolean isStrong, Patterns... patterns) {
         List<String> arguments = getCommandArguments();
         ArgumentPatterns patternList = new ArgumentPatterns(count, isStrong, patterns);
-        if (!patternList.processArgumentList(arguments)) {
-            return new ArrayList<>();
-        }
-        return arguments;
+        return patternList.processArguments(arguments);
     }
 
-    public List<String> parseStrongArguments(int count, ArgumentPattern... patterns) {
+    public List<String> parseStrongArguments(int count, Patterns... patterns) {
         return parseArguments(count, true, patterns);
     }
 
-    public List<String> parseOptionalArguments(int count, ArgumentPattern... patterns) {
+    public List<String> parseOptionalArguments(int count, Patterns... patterns) {
         return parseArguments(count, false, patterns);
     }
 
-    public List<String> parseArguments(ArgumentPattern... patterns) {
+    public List<String> parseArguments(Patterns... patterns) {
         return parseArguments(1, false, patterns);
     }
 }

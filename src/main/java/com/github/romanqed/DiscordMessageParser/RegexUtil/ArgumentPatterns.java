@@ -8,9 +8,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class ArgumentPatterns {
-    private final List<ArgumentPattern> list;
+    private final List<Patterns> list;
 
-    public ArgumentPatterns(int count, boolean isStrong, ArgumentPattern... patterns) {
+    public ArgumentPatterns(int count, boolean isStrong, Patterns... patterns) {
         if (patterns == null || patterns.length == 0) {
             list = new ArrayList<>();
             return;
@@ -26,29 +26,36 @@ public class ArgumentPatterns {
         }
     }
 
-    public ArgumentPatterns(ArgumentPattern... patterns) {
+    public ArgumentPatterns(Patterns... patterns) {
         this(1, false, patterns);
     }
 
-    public boolean processArgumentList(List<String> arguments) {
+    public List<String> processArguments(List<String> arguments) {
+        List<String> ret = new ArrayList<>();
         if (arguments == null || list.isEmpty()) {
-            return false;
+            return ret;
         }
-        if (arguments.size() < getStrongArgumentsCount() || arguments.size() > getSize()) {
-            return false;
+        int size = getStrongArgumentsCount();
+        if (arguments.size() < size || arguments.size() > list.size()) {
+            return ret;
         }
-        int size = Math.min(arguments.size(), list.size());
-        for (int i = 0; i < size; ++i) {
-            if (!list.get(i).getPattern().matcher(arguments.get(i)).matches()) {
-                return false;
+        if (size != 0) {
+            List<String> rawList = arguments.subList(0, size);
+            if (!Utils.listMatchesPatterns(rawList, list.subList(0, size))) {
+                return ret;
+            }
+            ret.addAll(rawList);
+        }
+        for (int i = size; i < arguments.size(); ++i) {
+            String rawArg = arguments.get(i);
+            if (!rawArg.matches(list.get(i).getRegex())) {
+                ret.add("");
+            } else {
+                ret.add(rawArg);
             }
         }
-        arguments.addAll(Collections.nCopies(list.size() - arguments.size(), ""));
-        return true;
-    }
-
-    public ArgumentPattern get(int index) {
-        return list.get(index);
+        ret.addAll(Collections.nCopies(list.size() - ret.size(), ""));
+        return ret;
     }
 
     public int getOptionalArgumentsCount() {
@@ -56,15 +63,7 @@ public class ArgumentPatterns {
     }
 
     public int getStrongArgumentsCount() {
-        return getSize() - getOptionalArgumentsCount();
-    }
-
-    public int getSize() {
-        return list.size();
-    }
-
-    public boolean isEmpty() {
-        return list.isEmpty();
+        return list.size() - getOptionalArgumentsCount();
     }
 
     @Override

@@ -1,14 +1,12 @@
 package com.github.romanqed.DiscordMessageParser.JDAUtil.Utils;
 
-import com.github.romanqed.DiscordMessageParser.RegexUtil.ArgumentPattern;
+import com.github.romanqed.DiscordMessageParser.RegexUtil.Patterns;
 import net.dv8tion.jda.api.entities.PermissionOverride;
-
-import java.util.Objects;
 
 public class Checks {
     public static boolean isId(String id) {
         try {
-            return ArgumentPattern.ID.getPattern().matcher(id).matches();
+            return id.matches(Patterns.ID.getRegex());
         } catch (Exception e) {
             return false;
         }
@@ -16,7 +14,7 @@ public class Checks {
 
     public static boolean isUserMention(String userMention) {
         try {
-            return ArgumentPattern.USER_MENTION.getPattern().matcher(userMention).matches();
+            return userMention.matches(Patterns.USER_MENTION.getRegex());
         } catch (Exception e) {
             return false;
         }
@@ -24,15 +22,18 @@ public class Checks {
 
     public static boolean isChannelMention(String channelMention) {
         try {
-            return ArgumentPattern.CHANNEL_MENTION.getPattern().matcher(channelMention).matches();
+            return channelMention.matches(Patterns.CHANNEL_MENTION.getRegex());
         } catch (Exception e) {
             return false;
         }
     }
 
     public static boolean isUserTag(String rawUserName) {
-        rawUserName = Objects.requireNonNullElse(rawUserName, "");
-        return ArgumentPattern.USER_TAG.getPattern().matcher(rawUserName).matches();
+        try {
+            return rawUserName.matches(Patterns.USER_TAG.getRegex());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static boolean isEmptyPermissionOverride(PermissionOverride permissionOverride) {

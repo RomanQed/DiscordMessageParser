@@ -1,9 +1,11 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil;
 
-import com.github.romanqed.DiscordMessageParser.RegexUtil.ArgumentPattern;
+import com.github.romanqed.DiscordMessageParser.RegexUtil.Patterns;
+
+import java.util.List;
 
 public class Utils {
-    public static boolean validatePatterns(boolean disableStrong, boolean disableOptional, ArgumentPattern... patterns) {
+    public static boolean validatePatterns(boolean disableStrong, boolean disableOptional, Patterns... patterns) {
         if (disableStrong && disableOptional) {
             return false;
         }
@@ -27,11 +29,23 @@ public class Utils {
         return true;
     }
 
-    public static boolean validatePatterns(boolean disableOptional, ArgumentPattern... patterns) {
+    public static boolean validatePatterns(boolean disableOptional, Patterns... patterns) {
         return validatePatterns(false, disableOptional, patterns);
     }
 
-    public static boolean validatePatterns(ArgumentPattern... patterns) {
+    public static boolean validatePatterns(Patterns... patterns) {
         return validatePatterns(false, false, patterns);
+    }
+
+    public static boolean listMatchesPatterns(List<String> rawList, List<Patterns> patterns) {
+        if (rawList.size() != patterns.size()) {
+            return false;
+        }
+        for (int i = 0; i < rawList.size(); ++i) {
+            if (!rawList.get(i).matches(patterns.get(i).getRegex())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

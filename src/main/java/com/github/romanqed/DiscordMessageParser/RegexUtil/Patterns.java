@@ -2,7 +2,7 @@ package com.github.romanqed.DiscordMessageParser.RegexUtil;
 
 import java.util.regex.Pattern;
 
-public enum ArgumentPattern {
+public enum Patterns {
     ID("\\d{18}"),
     OPTIONAL_ID("\\d{18}", false),
     USER_MENTION("<@!{0,1}\\d{18}>"),
@@ -18,17 +18,21 @@ public enum ArgumentPattern {
     private final Pattern pattern;
     private final boolean isStrong;
 
-    ArgumentPattern(String regex, boolean isStrong) {
+    Patterns(String regex, boolean isStrong) {
         this.pattern = Pattern.compile(regex, Pattern.MULTILINE);
         this.isStrong = isStrong;
     }
 
-    ArgumentPattern(String regex) {
+    Patterns(String regex) {
         this(regex, true);
     }
 
     public Pattern getPattern() {
         return pattern;
+    }
+
+    public String getRegex() {
+        return pattern.pattern();
     }
 
     public boolean isStrong() {

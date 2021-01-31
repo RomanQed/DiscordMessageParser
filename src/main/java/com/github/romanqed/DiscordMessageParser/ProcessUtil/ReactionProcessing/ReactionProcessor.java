@@ -34,10 +34,22 @@ public abstract class ReactionProcessor {
     }
 
     public void queueReactionRemove(MessageReaction reaction) {
-        service.submit(() -> processReactionRemove(reaction));
+        service.submit(() -> {
+            try {
+                processReactionRemove(reaction);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void queueReactionRemove(long messageId) {
-        service.submit(() -> processReactionRemove(messageId));
+        service.submit(() -> {
+            try {
+                processReactionRemove(messageId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

@@ -45,6 +45,12 @@ public class PrivateMessageProcessor extends MessageProcessor {
     }
 
     public void queueMessage(Message message) {
-        service.submit(() -> processMessage(message));
+        service.submit(() -> {
+            try {
+                processMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

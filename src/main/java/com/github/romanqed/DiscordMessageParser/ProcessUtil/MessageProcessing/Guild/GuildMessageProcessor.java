@@ -57,7 +57,13 @@ public class GuildMessageProcessor extends MessageProcessor {
 
     public void queueMessage(Message message) {
         long key = message.getGuild().getIdLong();
-        guildService.addToQueue(key, () -> processMessage(message));
+        guildService.addToQueue(key, () -> {
+            try {
+                processMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void dropGuildExecutor(long guildId, boolean safetyDrop) {

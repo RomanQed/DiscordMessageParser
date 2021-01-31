@@ -22,9 +22,13 @@ public class PrivateReactionProcessor extends ReactionProcessor {
 
     public void queueReaction(ReactionContext context) {
         service.submit(() -> {
-            EmojiEvent event = processReaction(context.getReaction());
-            if (event != null) {
-                event.call(context);
+            try {
+                EmojiEvent event = processReaction(context.getReaction());
+                if (event != null) {
+                    event.call(context);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

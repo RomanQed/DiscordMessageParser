@@ -26,9 +26,13 @@ public class GuildReactionProcessor extends ReactionProcessor {
 
     public void queueReaction(ReactionContext context) {
         guildService.addToQueue(context.getGuildId(), () -> {
-            EmojiEvent event = processReaction(context.getReaction());
-            if (event != null) {
-                event.call(context);
+            try {
+                EmojiEvent event = processReaction(context.getReaction());
+                if (event != null) {
+                    event.call(context);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

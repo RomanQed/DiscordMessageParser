@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class LinkedEmojiEvent implements EmojiEvent {
     public static final EventCollection COLLECTION = new EventCollection();
     private final long finalTime;
-    private final Consumer<ReactionContext> action;
+    private Consumer<ReactionContext> action;
     private Runnable byEnd;
     private String emoji;
     private long id;
@@ -39,6 +39,10 @@ public class LinkedEmojiEvent implements EmojiEvent {
 
     public LinkedEmojiEvent(Consumer<ReactionContext> action) {
         this(Constants.DEFAULT_LIFE_TIME, Constants.DEFAULT_CALLS_AMOUNT, action, null);
+    }
+
+    public LinkedEmojiEvent() {
+        this(null);
     }
 
     @Override
@@ -76,6 +80,11 @@ public class LinkedEmojiEvent implements EmojiEvent {
     @Override
     public void setEmoji(String emoji) {
         this.emoji = Objects.requireNonNullElse(emoji, Constants.DEFAULT_EMOJI);
+    }
+
+    @Override
+    public void setAction(Consumer<ReactionContext> action) {
+        this.action = Objects.requireNonNullElse(action, System.out::println);
     }
 
     @Override

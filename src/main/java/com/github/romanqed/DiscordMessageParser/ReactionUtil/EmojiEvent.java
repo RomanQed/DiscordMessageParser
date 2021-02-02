@@ -1,5 +1,7 @@
 package com.github.romanqed.DiscordMessageParser.ReactionUtil;
 
+import java.util.function.Consumer;
+
 public interface EmojiEvent {
     long getId();
 
@@ -14,6 +16,8 @@ public interface EmojiEvent {
     String getEmoji();
 
     void setEmoji(String emoji);
+
+    void setAction(Consumer<ReactionContext> action);
 
     void call(ReactionContext context);
 

@@ -1,8 +1,12 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil;
 
 import com.github.romanqed.DiscordMessageParser.RegexUtil.Patterns;
+import net.dv8tion.jda.api.entities.Role;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Utils {
     public static boolean validatePatterns(boolean disableStrong, boolean disableOptional, Patterns... patterns) {
@@ -47,5 +51,13 @@ public class Utils {
             }
         }
         return true;
+    }
+
+    public static Set<String> rolesToString(Collection<Role> roles) {
+        Set<String> ret = new HashSet<>();
+        for (Role role : roles) {
+            ret.add(role.getName());
+        }
+        return ret;
     }
 }

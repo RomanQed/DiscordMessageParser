@@ -1,5 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Commands;
 
+import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.Utils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -60,8 +61,9 @@ public class GuildCommand extends GenericCommand {
         if (this.roles.size() > roles.size()) {
             return false;
         }
-        for (Role role : roles) {
-            if (!this.roles.contains(role.getName())) {
+        Set<String> stringRoles = Utils.rolesToString(roles);
+        for (String role : this.roles) {
+            if (!stringRoles.contains(role)) {
                 return false;
             }
         }

@@ -2,23 +2,7 @@ apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/romanqed/discordmessageparser")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GITUSERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
+sourceCompatibility = JavaVersion.VERSION_11
 
 group 'com.github.romanqed'
 version '0.1.19'
@@ -28,6 +12,25 @@ repositories {
     maven {
         name 'm2-dv8tion'
         url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/RomanQed/DiscordMessageParser")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITUSERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            artifactId 'discord-message-parser'
+            from(components.java)
+        }
     }
 }
 

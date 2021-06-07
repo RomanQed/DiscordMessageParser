@@ -1,24 +1,23 @@
 apply plugin: 'java-library'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven-publish'
 
-buildscript {
+
+publishing {
     repositories {
-        mavenCentral()
-        jcenter()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/romanqed/discordmessageparser")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITUSERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
     }
-    dependencies {
-        classpath 'com.novoda:bintray-release:0.9.2'
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
     }
-}
-
-publish {
-    userOrg = 'romanqed'
-    groupId = 'com.github.romanqed'
-    artifactId = 'DiscordMessageParser'
-    publishVersion = '0.1.19'
-    desc = 'A simple library for parsing discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.'
-    website = 'https://github.com/RomanQed/DiscordMessageParser'
-    licences = ['MIT']
 }
 
 group 'com.github.romanqed'
@@ -26,11 +25,14 @@ version '0.1.19'
 
 repositories {
     mavenCentral()
-    jcenter()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
 }
 
 dependencies {
-    implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.0_224'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.1_272'
     implementation group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 }
 

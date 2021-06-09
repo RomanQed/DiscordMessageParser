@@ -1,11 +1,20 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+}
 
-
-sourceCompatibility = JavaVersion.VERSION_11
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    compileJava.options.encoding('UTF-8')
+    withJavadocJar()
+    withSourcesJar()
+}
 
 group 'com.github.romanqed'
-version '0.1.19'
+archivesBaseName = 'discord-message-parser'
+version = System.getenv('RELEASE_VERSION') ?: "0.0.1"
 
 repositories {
     mavenCentral()
@@ -15,28 +24,82 @@ repositories {
     }
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/RomanQed/DiscordMessageParser")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GITUSERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            artifactId 'discord-message-parser'
-            from(components.java)
-        }
-    }
-}
-
 dependencies {
     implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.1_272'
     implementation group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 }
 
-compileJava.options.encoding = 'UTF-8'
+jar {
+    from sourceSets.main.output
+    from sourceSets.main.allJava
+}
+
+signing {
+    sign publishing.publications
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            customizePom(pom)
+            groupId group
+            artifactId archivesBaseName
+            version version
+
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username System.getenv('SONATYPE_USERNAME')
+                password System.getenv('SONATYPE_PASSWORD')
+            }
+        }
+    }
+}
+
+def customizePom(pom) {
+    pom.withXml {
+        def root = asNode()
+
+        root.dependencies.removeAll { dep ->
+            dep.scope == "test"
+        }
+
+        root.children().last() + {
+            resolveStrategy = DELEGATE_FIRST
+
+            description 'A simple library for parsing discord activities, which provides functionality for processing commands, emoji reactions, and various processing actions. Based on JDA.'
+            name 'DiscordMessageParser'
+            url 'https://github.com/RomanQed/DiscordMessageParser'
+            organization {
+                name 'com.github.romanqed'
+                url 'https://github.com/RomanQed/DiscordMessageParser'
+            }
+            issueManagement {
+                system 'GitHub'
+                url 'https://github.com/RomanQed/DiscordMessageParser/issues'
+            }
+            licenses {
+                license {
+                    name 'MIT License'
+                    url 'https://github.com/RomanQed/DiscordMessageParser/blob/main/LICENSE'
+                }
+            }
+            scm {
+                url 'https://github.com/RomanQed/DiscordMessageParser'
+                connection 'scm:https://github.com/RomanQed/DiscordMessageParser.git'
+                developerConnection 'scm:git://github.com/RomanQed/DiscordMessageParser.git'
+            }
+            developers {
+                developer {
+                    id 'dev'
+                    name 'RomanQed'
+                    email 'gbakaldin@gmail.com'
+                }
+            }
+        }
+    }
+}

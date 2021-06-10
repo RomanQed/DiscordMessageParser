@@ -1,6 +1,6 @@
 package com.github.romanqed.DiscordMessageParser.CommandUtil.Commands;
 
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.Context;
+import com.github.romanqed.DiscordMessageParser.JDAUtil.Wrappers.JDAWrapper;
 
 import java.util.Objects;
 
@@ -20,8 +20,8 @@ public abstract class GenericCommand {
         return name.equals(obj);
     }
 
-    public void execute(Context context) {
-        context.getJDAWrapper().reply(toString());
+    public void execute(JDAWrapper wrapper, String arguments) {
+        wrapper.reply(toString());
     }
 
     @Override

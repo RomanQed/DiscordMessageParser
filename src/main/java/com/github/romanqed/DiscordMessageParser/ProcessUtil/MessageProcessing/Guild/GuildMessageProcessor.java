@@ -2,9 +2,7 @@ package com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.G
 
 import com.github.romanqed.DiscordMessageParser.CommandUtil.CommandCollection;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.Commands.GuildCommand;
-import com.github.romanqed.DiscordMessageParser.CommandUtil.Contexts.ContextImpl;
 import com.github.romanqed.DiscordMessageParser.CommandUtil.ParseUtil.ProcessedCommand;
-import com.github.romanqed.DiscordMessageParser.ContainerUtil.ContainerCollection;
 import com.github.romanqed.DiscordMessageParser.JDAUtil.Wrappers.JDAWrapper;
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.GuildService;
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.MessageParseHandler;
@@ -47,12 +45,7 @@ public class GuildMessageProcessor extends MessageProcessor {
             handler.onAccessError(wrapper);
             return;
         }
-        ContainerCollection collection = containers.get(message.getGuild().getIdLong());
-        if (collection == null) {
-            collection = new ContainerCollection();
-            containers.put(message.getGuild().getIdLong(), collection);
-        }
-        command.execute(new ContextImpl(parsedCommand.getRawArguments(), wrapper, collection));
+        command.execute(wrapper, parsedCommand.getRawArguments());
     }
 
     public void queueMessage(Message message) {

@@ -27,6 +27,7 @@ repositories {
 dependencies {
     implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.1_272'
     implementation group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
+    annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
 }
 
 jar {

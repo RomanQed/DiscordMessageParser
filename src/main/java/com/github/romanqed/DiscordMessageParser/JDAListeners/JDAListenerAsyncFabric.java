@@ -11,6 +11,7 @@ import com.github.romanqed.DiscordMessageParser.JDAListeners.DefaultJDAListeners
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.MessageParseHandler;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.EventCollection;
 import com.github.romanqed.DiscordMessageParser.ReactionUtil.LinkedEmojiEvent;
+import com.github.romanqed.DiscordMessageParser.Utils.Checks;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,11 +24,13 @@ public class JDAListenerAsyncFabric implements JDAListenerFabric {
     private final MessageParseHandler privateHandler;
     private final EventCollection emojiEvents;
 
-    public JDAListenerAsyncFabric() throws IllegalAccessException, InvocationTargetException, InstantiationException {
+    public JDAListenerAsyncFabric() {
         guildCommands = Utils.getGuildCommandCollection();
         privateCommands = Utils.getPrivateCommandCollection();
-        guildHandler = Utils.getGuildHandler();
-        privateHandler = Utils.getPrivateHandler();
+        guildHandler = Checks.requireNonExcept(Utils::getGuildHandler, new MessageParseHandler() {
+        });
+        privateHandler = Checks.requireNonExcept(Utils::getPrivateHandler, new MessageParseHandler() {
+        });
         emojiEvents = LinkedEmojiEvent.COLLECTION;
     }
 

@@ -9,7 +9,6 @@ import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.Me
 import com.github.romanqed.DiscordMessageParser.ProcessUtil.MessageProcessing.MessageProcessor;
 import net.dv8tion.jda.api.entities.Message;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 

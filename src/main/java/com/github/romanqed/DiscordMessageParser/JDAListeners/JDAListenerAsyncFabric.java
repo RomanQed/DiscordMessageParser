@@ -14,7 +14,6 @@ import com.github.romanqed.DiscordMessageParser.ReactionUtil.LinkedEmojiEvent;
 import com.github.romanqed.DiscordMessageParser.Utils.Checks;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.Executors;
 
 public class JDAListenerAsyncFabric implements JDAListenerFabric {

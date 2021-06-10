@@ -5,6 +5,7 @@ public class Fabrics {
         try {
             return new JDAListenerAsyncFabric();
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

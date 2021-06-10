@@ -18,7 +18,6 @@ public class PrivateMessageProcessor extends MessageProcessor {
     public PrivateMessageProcessor(CommandCollection<PrivateCommand> commands, ExecutorService service, MessageParseHandler handler) {
         super(service, handler);
         this.commands = Objects.requireNonNullElse(commands, new CommandCollection<>());
-        containers.put(0L, new ContainerCollection());
     }
 
     public PrivateMessageProcessor(CommandCollection<PrivateCommand> commands, MessageParseHandler handler) {
